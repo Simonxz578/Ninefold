@@ -1,0 +1,1791 @@
+.living-world {
+  --nf-earth-deep: #173e38;
+  --nf-earth-mid: #356e58;
+  --nf-grass-light: #b8d979;
+  --nf-water: #67bed3;
+  --nf-sky: #65c9ed;
+  --nf-nebula: #8b78c8;
+  --nf-star: #eef7d4;
+  --nf-sun: #ffe8a0;
+  position: relative;
+  isolation: isolate;
+  width: 100%;
+  min-height: 20rem;
+  aspect-ratio: 5 / 3;
+  overflow: hidden;
+  margin: 0;
+  border-radius: clamp(1rem, 2.4vw, 2rem);
+  background: var(--nf-earth-deep);
+  box-shadow: 0 1.8rem 5rem rgb(11 39 51 / 28%);
+}
+
+.living-world__scene,
+.living-world__key-art,
+.living-world__edge-shade {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.living-world__scene {
+  z-index: 2;
+  display: block;
+}
+
+.living-world__key-art {
+  z-index: 1;
+  object-fit: cover;
+  opacity: .18;
+  filter: saturate(.72) contrast(.9);
+}
+
+.living-world__edge-shade {
+  z-index: 3;
+  pointer-events: none;
+  box-shadow: inset 0 0 8rem rgb(10 28 47 / 22%), inset 0 -5rem 7rem rgb(12 44 38 / 22%);
+}
+
+.living-world__sr-only {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+.living-world__sky-stop--zenith { stop-color: #2d76bb; }
+.living-world__sky-stop--horizon { stop-color: #c5eef1; }
+.living-world__sky--morning .living-world__sky-stop--zenith { stop-color: #78b8d8; }
+.living-world__sky--morning .living-world__sky-stop--horizon { stop-color: #f9d7b1; }
+.living-world__sky--evening .living-world__sky-stop--zenith { stop-color: #665f9d; }
+.living-world__sky--evening .living-world__sky-stop--horizon { stop-color: #f1b79f; }
+.living-world__sky--night .living-world__sky-stop--zenith { stop-color: #111b4e; }
+.living-world__sky--night .living-world__sky-stop--horizon { stop-color: #475889; }
+.living-world__nebula { opacity: var(--nf-nebula-opacity); }
+.living-world__sun { opacity: var(--nf-sunlight); }
+.living-world__distant-ridge { fill: #6e9b8c; opacity: .46; }
+.living-world__distant-ridge--near { fill: #477d6c; opacity: .74; }
+
+.living-world__cloud-layer { opacity: var(--nf-cloud-opacity); }
+.living-world__cloud { fill: #f7fbef; transform-box: fill-box; transform-origin: center; }
+.living-world__cloud--forward { animation: nf-cloud-forward var(--nf-cloud-drift) ease-in-out infinite alternate; }
+.living-world__cloud--reverse { animation: nf-cloud-reverse var(--nf-cloud-drift) ease-in-out infinite alternate; }
+
+.living-world__water-lines {
+  fill: none;
+  stroke: #e4f8ee;
+  stroke-width: 3;
+  stroke-linecap: round;
+  opacity: var(--nf-water-light);
+  animation: nf-water-breathe var(--nf-water-motion) ease-in-out infinite alternate;
+}
+.living-world__water-shine { fill: #eaffd7; opacity: var(--nf-water-shine); }
+.living-world__bank--far { fill: #80ad67; }
+.living-world__bank--near { fill: #3e7a55; }
+.living-world__ground { opacity: var(--nf-ground-opacity); }
+.living-world__grass-marks { fill: none; stroke: #cae884; stroke-width: 4; stroke-linecap: round; opacity: .72; }
+.living-world__field-flowers { fill: #f4d4eb; stroke: #fff5d6; stroke-width: 1.5; }
+
+.living-world__stars { fill: var(--nf-star); opacity: var(--nf-star-opacity); }
+.living-world__stars circle { animation: nf-star-pulse 4.8s ease-in-out infinite alternate; }
+.living-world__stars circle:nth-child(3n) { animation-delay: -1.6s; }
+.living-world__rain { fill: none; stroke: #d6f1f2; stroke-width: 3; stroke-linecap: round; opacity: var(--nf-rain-opacity); }
+.living-world__rain path { animation: nf-rain var(--nf-weather-wind) linear infinite; }
+.living-world__rain path:nth-child(2n) { animation-delay: -.8s; }
+.living-world__breeze { fill: none; stroke: #f4ffe5; stroke-width: 3; stroke-linecap: round; opacity: var(--nf-breeze-opacity); stroke-dasharray: 18 16; animation: nf-breeze 8s ease-in-out infinite alternate; }
+.living-world__breeze--two { animation-delay: -3s; }
+
+.world-tree__roots,
+.world-tree__branches {
+  fill: none;
+  stroke: #376e58;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.world-tree__roots { stroke-width: 17; opacity: .78; }
+.world-tree__branches { stroke-width: 15; }
+.world-tree__trunk-shadow { fill: none; stroke: #173e38; stroke-width: 44; stroke-linecap: round; stroke-linejoin: round; opacity: .58; }
+.world-tree__trunk { fill: none; stroke-width: 32; stroke-linecap: round; stroke-linejoin: round; }
+.world-tree__crown { color: #8cbf77; opacity: var(--nf-crown-opacity); transform-box: fill-box; transform-origin: center bottom; animation: nf-tree-breathe 9s ease-in-out infinite alternate; }
+.world-tree__flower { transform-box: fill-box; transform-origin: center; }
+.world-tree__nest { fill: #345f50; stroke: #e3e7a6; stroke-width: 6; }
+.world-tree__light-veins { fill: none; stroke: #eaf5b6; stroke-width: 4; stroke-linecap: round; opacity: var(--nf-vein-opacity); }
+.world-tree--path-1 .world-tree__crown { color: #d7e78c; }
+.world-tree--path-2 .world-tree__crown { color: #79c3aa; }
+.world-tree--path-3 .world-tree__crown { color: #edafd6; }
+.world-tree--path-4 .world-tree__crown { color: #b6cc73; }
+.world-tree--path-5 .world-tree__crown { color: #82bed4; }
+.world-tree--path-6 .world-tree__crown { color: #d8d694; }
+.world-tree--path-7 .world-tree__crown { color: #9b91d1; }
+.world-tree--path-8 .world-tree__crown { color: #aed8e0; }
+.world-tree--path-9 .world-tree__crown { color: #c5a8dc; }
+
+/* Rest sessions add a small, persistent ecology layer without changing the
+   underlying Path-specific tree silhouettes. */
+.session-growth {
+  pointer-events: none;
+}
+
+.session-growth__root-glow {
+  fill: #f1ffb5;
+  opacity: 0;
+  filter: drop-shadow(0 0 24px rgb(239 255 164 / 92%));
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.session-growth__root-network path {
+  fill: none;
+  stroke: #eaffaa;
+  stroke-width: 5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  opacity: 0;
+  filter: drop-shadow(0 0 7px rgb(230 255 147 / 78%));
+}
+
+.session-growth__trunk-light {
+  fill: none;
+  stroke: #f3ffc2;
+  stroke-width: 8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  opacity: 0;
+  filter: drop-shadow(0 0 11px rgb(236 255 167 / 92%));
+}
+
+.session-growth__stage {
+  --nf-session-branch-shadow-animation-name: none;
+  --nf-session-branch-animation-name: none;
+  --nf-session-sap-animation-name: none;
+  --nf-session-bud-animation-name: none;
+  --nf-session-leaf-animation-name: none;
+  --nf-session-leaf-form-animation-name: none;
+  --nf-session-ecology-animation: none;
+  --nf-session-mote-animation-name: none;
+  --nf-session-wood: #c8df83;
+  --nf-session-leaf: #b8dc77;
+  opacity: 1;
+  animation: var(--nf-session-stage-animation, none);
+}
+
+.session-growth__stage--2 {
+  --nf-session-wood: #8ed7ad;
+  --nf-session-leaf: #86d394;
+}
+
+.session-growth__stage--3 {
+  --nf-session-wood: #dce78a;
+  --nf-session-leaf: #d3e98a;
+}
+
+.session-growth__stage--4 {
+  --nf-session-wood: #86d5bd;
+  --nf-session-leaf: #a6df79;
+}
+
+.session-growth__stage--5 {
+  --nf-session-wood: #eadf8b;
+  --nf-session-leaf: #e6ed91;
+}
+
+.session-growth__branch-system {
+  --nf-branch-duration: 2.7s;
+}
+
+.session-growth__branch-system--twig {
+  --nf-branch-duration: 1.7s;
+}
+
+.session-growth__branch-shadow,
+.session-growth__branch,
+.session-growth__branch-sap {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 0;
+  animation-duration: var(--nf-branch-duration);
+  animation-delay: calc(2s + var(--nf-branch-delay, 0s));
+  animation-timing-function: cubic-bezier(.18, .72, .2, 1);
+  animation-fill-mode: both;
+}
+
+.session-growth__branch-shadow {
+  stroke: #315d49;
+  stroke-width: 15;
+  opacity: .78;
+  animation-name: var(--nf-session-branch-shadow-animation-name);
+}
+
+.session-growth__branch-system--twig .session-growth__branch-shadow {
+  stroke-width: 10;
+  opacity: .68;
+}
+
+.session-growth__branch {
+  stroke: var(--nf-session-wood);
+  stroke-width: 9;
+  opacity: .98;
+  filter: drop-shadow(0 0 5px rgb(223 247 165 / 68%));
+  animation-name: var(--nf-session-branch-animation-name);
+}
+
+.session-growth__branch-system--twig .session-growth__branch {
+  stroke-width: 6;
+}
+
+.session-growth__branch-sap {
+  stroke: #f7ffc8;
+  stroke-width: 2.8;
+  opacity: .26;
+  filter: drop-shadow(0 0 5px rgb(246 255 186 / 88%));
+  animation-name: var(--nf-session-sap-animation-name);
+}
+
+.session-growth__branch-system--twig .session-growth__branch-sap {
+  stroke-width: 2.2;
+}
+
+.session-growth__leaf {
+  color: var(--nf-session-leaf);
+  opacity: .98;
+  filter: drop-shadow(0 3px 4px rgb(18 63 48 / 26%));
+  animation-name: var(--nf-session-leaf-animation-name);
+  animation-duration: 2.25s;
+  animation-delay: calc(5s + var(--nf-leaf-delay, 0s));
+  animation-timing-function: cubic-bezier(.2, .8, .2, 1);
+  animation-fill-mode: both;
+}
+
+.session-growth__bud {
+  fill: #f5ffb3;
+  stroke: var(--nf-session-wood);
+  stroke-width: 3;
+  opacity: .38;
+  filter: drop-shadow(0 0 7px rgb(242 255 168 / 72%));
+  transform-box: fill-box;
+  transform-origin: center;
+  animation-name: var(--nf-session-bud-animation-name);
+  animation-duration: 1.25s;
+  animation-delay: calc(4.25s + var(--nf-leaf-delay, 0s));
+  animation-timing-function: cubic-bezier(.2, .8, .2, 1.15);
+  animation-fill-mode: both;
+}
+
+.session-growth__leaf-blade,
+.session-growth__leaf-vein {
+  transform-box: fill-box;
+  transform-origin: center bottom;
+  animation-name: var(--nf-session-leaf-form-animation-name);
+  animation-duration: 2.25s;
+  animation-delay: calc(5s + var(--nf-leaf-delay, 0s));
+  animation-timing-function: cubic-bezier(.16, .88, .22, 1.18);
+  animation-fill-mode: both;
+}
+
+.session-growth__leaf-blade {
+  fill: currentColor;
+  stroke: #f4fac0;
+  stroke-width: 2.4;
+}
+
+.session-growth__leaf-vein {
+  fill: none;
+  stroke: #477d5d;
+  stroke-width: 2.5;
+  stroke-linecap: round;
+}
+
+.session-growth__leaf-vein--side {
+  stroke-width: 1.8;
+  opacity: .82;
+}
+
+.session-growth__motes circle {
+  fill: #f7ffc6;
+  opacity: 0;
+  filter: drop-shadow(0 0 7px #eeff9e);
+  animation-name: var(--nf-session-mote-animation-name);
+  animation-duration: calc(4s - var(--nf-mote-delay, 0s));
+  animation-delay: calc(10s + var(--nf-mote-delay, 0s));
+  animation-timing-function: ease-out;
+  animation-fill-mode: both;
+}
+
+.session-growth__ecology {
+  animation: var(--nf-session-ecology-animation);
+}
+
+.session-growth__ecology--grass {
+  fill: none;
+  stroke: #d6ed8c;
+  stroke-width: 5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.session-growth__flowers circle {
+  fill: #f2b9dc;
+  stroke: #fff3c6;
+  stroke-width: 2;
+}
+
+.session-growth__flowers circle:first-child {
+  fill: #f7df78;
+}
+
+.session-growth__fireflies circle {
+  fill: #f9ffb9;
+  filter: drop-shadow(0 0 8px #f1ff92);
+  animation: nf-session-firefly 5.6s ease-in-out infinite alternate;
+}
+
+.session-growth__fireflies circle:nth-child(2) { animation-delay: -1.8s; }
+.session-growth__fireflies circle:nth-child(3) { animation-delay: -3.4s; }
+
+.session-growth__root-ring,
+.session-growth__ripple {
+  fill: none;
+  stroke: #e8f4a5;
+  stroke-width: 5;
+  stroke-linecap: round;
+  opacity: .72;
+}
+
+.session-growth__ripple {
+  stroke: #d5f4e7;
+  stroke-width: 3;
+  opacity: .46;
+}
+
+.session-growth__crown-light {
+  fill: rgb(239 255 173 / 9%);
+  stroke: rgb(240 255 181 / 52%);
+  stroke-width: 3;
+  filter: drop-shadow(0 0 16px rgb(239 255 170 / 42%));
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.session-growth__renewal circle {
+  fill: #fff7a9;
+  opacity: .7;
+  filter: drop-shadow(0 0 8px #f4ff9a);
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.session-growth__renewal path {
+  fill: none;
+  stroke: #efffac;
+  stroke-width: 4;
+  stroke-linecap: round;
+  opacity: .56;
+}
+
+/* Only the just-unlocked stage receives the arrival timeline. Earlier stages
+   remain fully visible, so growth reads as accumulation rather than replay. */
+.rest-mode--growth[data-entering-stage="1"] .session-growth__botanical > .session-growth__stage--1,
+.rest-mode--growth[data-entering-stage="2"] .session-growth__botanical > .session-growth__stage--2,
+.rest-mode--growth[data-entering-stage="3"] .session-growth__botanical > .session-growth__stage--3,
+.rest-mode--growth[data-entering-stage="4"] .session-growth__botanical > .session-growth__stage--4,
+.rest-mode--growth:not(.rest-mode--renewal)[data-entering-stage="5"] .session-growth__botanical > .session-growth__stage--5 {
+  --nf-session-stage-animation: nf-session-settle 2s 14s ease-out both;
+  --nf-session-branch-shadow-animation-name: nf-session-branch-arrive;
+  --nf-session-branch-animation-name: nf-session-branch-arrive;
+  --nf-session-sap-animation-name: nf-session-sap-run;
+  --nf-session-bud-animation-name: nf-session-bud-swell;
+  --nf-session-leaf-animation-name: nf-session-leaf-arrive;
+  --nf-session-leaf-form-animation-name: nf-session-leaf-unfurl;
+  --nf-session-ecology-animation: nf-session-ecology-arrive 4s 10s ease-out both;
+  --nf-session-mote-animation-name: nf-session-mote-rise;
+}
+
+.rest-mode--growth:not(.rest-mode--renewal) .session-growth__root-glow {
+  animation: nf-session-root-awaken 2s ease-out both;
+}
+
+.rest-mode--growth:not(.rest-mode--renewal) .session-growth__root-network path {
+  animation: nf-session-root-spread 1.62s var(--nf-root-delay, 0s) cubic-bezier(.18, .72, .22, 1) both;
+}
+
+.rest-mode--growth:not(.rest-mode--renewal) .session-growth__trunk-light {
+  animation: nf-session-trunk-rise 3s 1.9s cubic-bezier(.18, .72, .22, 1) both;
+}
+
+.rest-mode--growth.rest-mode--renewal .session-growth__root-glow {
+  animation: nf-session-renewal-root 3.2s ease-in-out both;
+}
+
+.rest-mode--growth.rest-mode--renewal .session-growth__renewal circle {
+  animation: nf-session-renewal-light 3.6s 5s ease-in-out both;
+}
+
+.rest-mode--growth.rest-mode--renewal .session-growth__renewal circle:nth-child(2) { animation-delay: 5.55s; }
+.rest-mode--growth.rest-mode--renewal .session-growth__renewal circle:nth-child(3) { animation-delay: 6.1s; }
+.rest-mode--growth.rest-mode--renewal .session-growth__renewal path {
+  animation: nf-session-renewal-ring 4s 10s ease-out both;
+}
+
+.rest-mode--growth:not(.rest-mode--renewal)[data-entering-stage="5"] .session-growth__renewal {
+  animation: nf-session-ecology-arrive 4s 10s ease-out both;
+}
+
+.path-growth__event {
+  color: var(--nf-growth-color, #d9efa7);
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 3.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  opacity: .9;
+  animation: nf-growth-arrive .7s ease-out both;
+  animation-delay: var(--nf-growth-delay);
+}
+.path-growth__fill { fill: currentColor; fill-opacity: .5; }
+.path-growth__reflection { opacity: .5; }
+.path-growth__event--release { opacity: .62; stroke-dasharray: 6 5; }
+.path-growth__event--protect { stroke-width: 5; }
+.path-growth__event--open { filter: brightness(1.18); }
+.path-growth__event--observe { fill-opacity: .12; }
+
+.daily-sigil-merge { color: var(--nf-sigil-primary); }
+.daily-sigil-merge__halo { fill: var(--nf-sigil-secondary); opacity: .17; animation: nf-sigil-glow 5s ease-in-out infinite alternate; }
+.daily-sigil-merge__form { fill: color-mix(in srgb, var(--nf-sigil-primary) 50%, transparent); stroke: var(--nf-sigil-primary); stroke-width: 3; }
+.daily-sigil-merge__cutout { fill: #477d6c; }
+.daily-sigil-merge__spiral { fill: none; stroke: var(--nf-sigil-primary); stroke-width: 4; stroke-linecap: round; }
+.daily-sigil-merge__number-ring { fill: #f8f6df; stroke: var(--nf-sigil-primary); stroke-width: 2; }
+.daily-sigil-merge__number { fill: #173e38; font: 700 12px/1 system-ui, sans-serif; text-anchor: middle; dominant-baseline: central; }
+
+.attunement-field,
+.care-action-picker {
+  color: #183f39;
+  background: color-mix(in srgb, #f7f7e9 92%, transparent);
+  border: 1px solid rgb(44 95 77 / 18%);
+  border-radius: 1.5rem;
+  padding: clamp(1rem, 3vw, 2rem);
+  box-shadow: 0 1rem 3rem rgb(22 67 57 / 9%);
+}
+
+.attunement-field__header h2,
+.care-action-picker legend {
+  margin: 0;
+  color: #173e38;
+  font: 650 clamp(1.35rem, 2.3vw, 1.8rem)/1.16 ui-serif, Georgia, serif;
+}
+.attunement-field__header p,
+.care-action-picker > p,
+.attunement-field__group > p { color: #4c6d64; }
+.attunement-field__sky {
+  position: relative;
+  height: clamp(9rem, 22vw, 12rem);
+  overflow: hidden;
+  margin-top: 1.25rem;
+  border: 1px solid rgb(52 115 95 / 22%);
+  border-radius: 1.2rem;
+  background: linear-gradient(#64bde6 0%, #c8eef0 66%, #9ec887 67%, #5f9b69 100%);
+  box-shadow: inset 0 0 3rem rgb(45 83 152 / 12%);
+}
+.attunement-field__sky::before {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(105deg, rgb(139 120 200 / 12%), transparent 44%, rgb(255 233 158 / 20%));
+  content: "";
+}
+.attunement-field__sky-horizon { position: absolute; inset: 64% 0 auto; height: 1px; background: rgb(255 255 255 / 56%); }
+.attunement-field__sky-cloud {
+  position: absolute;
+  width: 7rem;
+  height: 2.1rem;
+  border-radius: 50%;
+  background: #f9fcf2;
+  box-shadow: 2.4rem -.5rem 0 -.25rem #f9fcf2, -2rem .3rem 0 -.4rem #f9fcf2;
+  opacity: var(--nf-attune-clouds);
+}
+.attunement-field__sky-cloud--one { left: 15%; top: 28%; }
+.attunement-field__sky-cloud--two { right: 14%; top: 48%; scale: .7; }
+.attunement-field__orb {
+  position: absolute;
+  left: var(--nf-attune-x);
+  top: var(--nf-attune-y);
+  width: var(--nf-attune-size);
+  height: var(--nf-attune-size);
+  translate: -50% -50%;
+  border: 1px solid rgb(255 255 255 / 86%);
+  border-radius: 50%;
+  background: radial-gradient(circle at 38% 32%, #fffef2 0 18%, #f7e997 38%, #e0bc6c 70%, rgb(224 188 108 / 0%) 72%);
+  box-shadow: 0 0 1.5rem #fff8ba, 0 0 3rem rgb(255 246 168 / 55%);
+  animation: nf-attunement-breathe 4.8s ease-in-out infinite alternate;
+  transition: left .25s ease, top .25s ease, width .25s ease, height .25s ease;
+}
+.attunement-field__group,
+.care-action-picker { border: 0; }
+.attunement-field__group { min-width: 0; margin: 1.5rem 0 0; padding: 0; }
+.attunement-field__group legend { font-weight: 700; }
+.attunement-field__group > p { margin: .35rem 0 .8rem; font-size: .92rem; }
+.attunement-field__ratings,
+.attunement-field__choices { display: grid; gap: .55rem; }
+.attunement-field__ratings { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+.attunement-field__choices { grid-template-columns: repeat(auto-fit, minmax(7.5rem, 1fr)); }
+.attunement-field__ratings label,
+.attunement-field__choices label,
+.care-action-picker__option { position: relative; cursor: pointer; }
+.attunement-field__ratings input,
+.attunement-field__choices input,
+.care-action-picker__option input {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  opacity: 0;
+}
+.attunement-field__ratings span,
+.attunement-field__choices span,
+.care-action-picker__option > span {
+  display: flex;
+  min-height: 3.25rem;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #b9cec2;
+  border-radius: .9rem;
+  background: #fffef4;
+  transition: border-color .18s ease, background-color .18s ease, transform .18s ease;
+}
+.attunement-field__ratings span { flex-direction: column; gap: .12rem; }
+.attunement-field__ratings strong { font-size: 1.05rem; }
+.attunement-field__ratings small { color: #5b756e; font-size: .68rem; text-align: center; }
+.attunement-field input:checked + span,
+.care-action-picker__option input:checked + span { border-color: #34735f; background: #dcebc5; box-shadow: inset 0 0 0 1px #34735f; }
+.attunement-field input:focus-visible + span,
+.care-action-picker__option input:focus-visible + span { outline: 3px solid #215eaa; outline-offset: 3px; }
+.attunement-field input:disabled + span,
+.care-action-picker__option input:disabled + span { cursor: not-allowed; opacity: .55; }
+.attunement-field__note { position: relative; display: grid; gap: .55rem; margin-top: 1.5rem; }
+.attunement-field__note > span { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; }
+.attunement-field__note small { color: #5b756e; }
+.attunement-field__note textarea { width: 100%; min-height: 6rem; resize: vertical; padding: .85rem 1rem; border: 1px solid #b9cec2; border-radius: .9rem; background: #fffef4; color: #183f39; font: inherit; }
+.attunement-field__note textarea:focus-visible { outline: 3px solid #215eaa; outline-offset: 2px; }
+.attunement-field__count { justify-self: end; }
+
+.care-action-picker { min-inline-size: 0; margin: 0; }
+.care-action-picker > p { margin: .55rem 0 1rem; }
+.care-action-picker__grid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: .7rem; }
+.care-action-picker__option > span { min-height: 8rem; padding: .8rem; flex-direction: column; text-align: center; }
+.care-action-picker__option i { display: grid; width: 2.2rem; height: 2.2rem; place-items: center; margin-bottom: .35rem; border-radius: 50%; background: #e7efce; color: #2c6a56; font-size: 1.25rem; font-style: normal; }
+.care-action-picker__option strong { color: #214e43; }
+.care-action-picker__option small { margin-top: .28rem; color: #58726a; line-height: 1.35; }
+
+.rest-mode {
+  --nf-rest-surface: rgb(8 37 34 / 92%);
+  --nf-rest-surface-strong: rgb(6 30 29 / 96%);
+  --nf-rest-text: #fbfff0;
+  --nf-rest-text-soft: #dcebdc;
+  --nf-rest-accent: #dff2a8;
+  --nf-rest-control-border: rgb(235 250 190 / 48%);
+  position: fixed;
+  z-index: 1000;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding:
+    max(.75rem, env(safe-area-inset-top))
+    max(.75rem, env(safe-area-inset-right))
+    max(.75rem, env(safe-area-inset-bottom))
+    max(.75rem, env(safe-area-inset-left));
+  background: rgb(5 24 29 / 84%);
+  backdrop-filter: blur(12px);
+}
+
+body.rest-mode-active {
+  overflow: hidden;
+  overscroll-behavior: none;
+}
+.rest-mode__dialog {
+  position: relative;
+  width: min(94rem, 100%);
+  height: min(54rem, calc(100dvh - 2rem));
+  overflow: hidden;
+  border: 1px solid rgb(229 247 183 / 18%);
+  border-radius: 1.6rem;
+  background: #102e2b;
+  box-shadow: 0 2rem 8rem rgb(0 0 0 / 50%);
+}
+
+.rest-mode__landscape {
+  position: absolute;
+  inset: 0;
+}
+
+.rest-mode__landscape::after {
+  position: absolute;
+  z-index: 4;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(24deg, rgb(4 27 27 / 52%) 0, rgb(4 27 27 / 16%) 48%, transparent 72%);
+  content: "";
+  transition: opacity .7s ease;
+}
+
+.rest-mode--active .rest-mode__landscape::after,
+.rest-mode--growth .rest-mode__landscape::after,
+.rest-mode--complete .rest-mode__landscape::after {
+  opacity: .38;
+}
+
+.rest-mode__landscape .living-world {
+  height: 100%;
+  min-height: 0;
+  aspect-ratio: auto;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.rest-mode__controls,
+.rest-mode__hud {
+  position: absolute;
+  z-index: 6;
+  border: 1px solid rgb(234 245 182 / 32%);
+  background: var(--nf-rest-surface);
+  color: var(--nf-rest-text);
+  box-shadow: 0 1.5rem 5rem rgb(0 0 0 / 28%);
+  backdrop-filter: blur(18px) saturate(112%);
+}
+
+.rest-mode__controls {
+  left: max(clamp(1rem, 4vw, 3rem), env(safe-area-inset-left));
+  bottom: max(clamp(1rem, 4vw, 3rem), env(safe-area-inset-bottom));
+  width: min(36rem, calc(100% - 2rem));
+  max-height: calc(100% - 2rem);
+  overflow-y: auto;
+  padding: clamp(1.1rem, 2.5vw, 1.75rem);
+  border-radius: 1.35rem;
+  scrollbar-color: rgb(223 242 168 / 58%) transparent;
+}
+
+.rest-mode__eyebrow {
+  margin: 0 0 .35rem;
+  color: var(--nf-rest-accent);
+  font-size: .72rem;
+  font-weight: 780;
+  letter-spacing: .13em;
+  text-transform: uppercase;
+}
+
+.rest-mode__controls h2 {
+  margin: 0;
+  color: var(--nf-rest-text);
+  font: 650 clamp(1.4rem, 3vw, 2.1rem)/1.15 ui-serif, Georgia, serif;
+}
+
+.rest-mode__controls h2 + p {
+  margin: .55rem 0 1rem;
+  color: var(--nf-rest-text-soft);
+  line-height: 1.55;
+}
+
+.rest-mode__durations {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .55rem;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.rest-mode__durations legend {
+  width: 100%;
+  margin-bottom: .4rem;
+  color: var(--nf-rest-text-soft);
+  font-size: .8rem;
+  font-weight: 740;
+}
+
+.rest-mode__durations button,
+.rest-mode__close,
+.rest-mode__start,
+.rest-mode__audio-toggle {
+  min-height: 2.75rem;
+  border: 1px solid var(--nf-rest-control-border);
+  border-radius: 999px;
+  background: rgb(255 255 255 / 9%);
+  color: var(--nf-rest-text);
+  padding: .65rem 1rem;
+  font: inherit;
+  font-weight: 680;
+  line-height: 1.2;
+  cursor: pointer;
+  transition: border-color .18s ease, background-color .18s ease, color .18s ease, translate .18s ease;
+}
+
+.rest-mode__durations button:hover,
+.rest-mode__durations button.is-active,
+.rest-mode__start,
+.rest-mode__close:hover,
+.rest-mode__audio-toggle:hover {
+  border-color: #ecf8bd;
+  background: #e5f1b9;
+  color: #143d35;
+}
+
+.rest-mode__durations button:active,
+.rest-mode__close:active,
+.rest-mode__start:active,
+.rest-mode__audio-toggle:active {
+  translate: 0 1px;
+}
+
+.rest-mode button:focus-visible { outline: 3px solid #fff7a9; outline-offset: 3px; }
+.rest-mode__timer {
+  position: relative;
+  display: grid;
+  flex: 0 0 auto;
+  width: 4.6rem;
+  height: 4.6rem;
+  place-items: center;
+  border-radius: 50%;
+  background: conic-gradient(#e5f1b9 var(--nf-rest-progress), rgb(255 255 255 / 16%) 0);
+  color: #123a33;
+  font-variant-numeric: tabular-nums;
+  font-weight: 820;
+}
+
+.rest-mode__timer::before {
+  position: absolute;
+  inset: .34rem;
+  border-radius: inherit;
+  background: #f8fadf;
+  content: "";
+}
+
+.rest-mode__timer--open { background: conic-gradient(#dce9b4 0 82%, rgb(255 255 255 / 12%) 82%); }
+.rest-mode__timer span { position: relative; }
+
+.rest-mode__status {
+  margin: .9rem 0 .25rem;
+  color: var(--nf-rest-text-soft);
+  font-size: .82rem;
+}
+
+.rest-mode__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .65rem;
+  margin-top: .9rem;
+}
+
+.rest-mode__start,
+.rest-mode__close {
+  min-width: 7.5rem;
+}
+
+.rest-mode__close {
+  background: #f4f4d5;
+  color: #173e38;
+}
+
+.rest-mode__audio {
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+}
+
+.rest-mode__audio--expanded {
+  display: grid;
+  grid-template-columns: max-content minmax(9rem, 1fr);
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgb(232 247 189 / 22%);
+}
+
+.rest-mode__audio-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: .45rem;
+  min-width: 6.75rem;
+}
+
+.rest-mode__audio-toggle > span:first-child {
+  font-size: 1.05rem;
+  line-height: 1;
+}
+
+.rest-mode__volume {
+  display: grid;
+  gap: .25rem;
+  color: var(--nf-rest-text-soft);
+  font-size: .78rem;
+  font-weight: 680;
+}
+
+.rest-mode__volume input {
+  width: 100%;
+  min-height: 2.75rem;
+  accent-color: #e5f1b9;
+  cursor: pointer;
+}
+
+.rest-mode__volume input:focus-visible {
+  outline: 3px solid #fff7a9;
+  outline-offset: 2px;
+}
+
+.rest-mode__hud {
+  top: max(clamp(1rem, 3vw, 2.25rem), env(safe-area-inset-top));
+  left: max(clamp(1rem, 3vw, 2.25rem), env(safe-area-inset-left));
+  display: flex;
+  width: max-content;
+  max-width: calc(100% - 15rem);
+  min-height: 5.5rem;
+  align-items: center;
+  gap: clamp(.75rem, 2vw, 1.25rem);
+  padding: .7rem .8rem .7rem 1rem;
+  border-radius: 1.15rem;
+}
+
+.rest-mode__hud-copy {
+  min-width: min(13rem, 30vw);
+}
+
+.rest-mode__phase-label,
+.rest-mode__complete-copy {
+  margin: 0;
+}
+
+.rest-mode__phase-label {
+  color: var(--nf-rest-text);
+  font: 650 clamp(1rem, 2vw, 1.25rem)/1.2 ui-serif, Georgia, serif;
+}
+
+.rest-mode__complete-copy {
+  max-width: 26rem;
+  margin-top: .25rem;
+  color: var(--nf-rest-text-soft);
+  font-size: .82rem;
+  line-height: 1.4;
+}
+
+.rest-mode__growth-mark {
+  display: grid;
+  flex: 0 0 auto;
+  width: 3rem;
+  height: 3rem;
+  place-items: center;
+  border: 1px solid rgb(239 252 184 / 42%);
+  border-radius: 50%;
+  color: #fff7a9;
+  background: rgb(232 249 170 / 10%);
+  font-size: 1.35rem;
+  animation: nf-session-growth-mark 2.6s ease-in-out infinite alternate;
+}
+
+.rest-mode__hud-actions {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: .55rem;
+}
+
+/* The modal owns focus and interaction while open; the page-level language
+   control returns as soon as Rest closes. */
+.rest-mode-active .language-switcher {
+  display: none;
+}
+
+.rest-mode:is(.rest-mode--active, .rest-mode--growth) .living-world__sun {
+  animation: nf-session-sun-breathe 13s ease-in-out infinite alternate;
+}
+
+.rest-mode:is(.rest-mode--active, .rest-mode--growth) .living-world__grass-marks {
+  transform-box: fill-box;
+  transform-origin: center bottom;
+  animation: nf-session-meadow-breathe 11s ease-in-out infinite alternate;
+}
+
+.rest-mode--growth .world-tree__branches {
+  transform-box: fill-box;
+  transform-origin: center bottom;
+  animation: nf-session-tree-lift 14s 2s cubic-bezier(.18, .72, .2, 1) both;
+}
+
+.rest-mode--growth .world-tree__crown {
+  animation: nf-session-canopy-bloom 11s 5s cubic-bezier(.16, .78, .2, 1) both;
+}
+
+.living-world--rest .living-world__edge-shade { box-shadow: inset 0 0 10rem rgb(7 29 40 / 32%); }
+
+/* Five-minute Rest journey. The ancestor step advances once every 30 seconds.
+   Setup and every landscape outside a started Rest session retain the complete
+   Path-specific tree above. */
+.session-journey {
+  display: none;
+}
+
+:where(.rest-mode:not(.rest-mode--setup)[data-rest-growth-step]) .session-journey {
+  display: inline;
+}
+
+.rest-mode:not(.rest-mode--setup)[data-rest-growth-step] .session-growth__botanical,
+.rest-mode:not(.rest-mode--setup)[data-rest-growth-step] .session-growth__renewal {
+  opacity: 0;
+}
+
+:where(.rest-mode:not(.rest-mode--setup)[data-rest-growth-step]) .world-tree__root,
+:where(.rest-mode:not(.rest-mode--setup)[data-rest-growth-step]) .world-tree__trunk-shadow,
+:where(.rest-mode:not(.rest-mode--setup)[data-rest-growth-step]) .world-tree__trunk,
+:where(.rest-mode:not(.rest-mode--setup)[data-rest-growth-step]) .world-tree__branch {
+  stroke-dasharray: 1;
+  transition: stroke-width 1.6s ease;
+}
+
+:where(.rest-mode:not(.rest-mode--setup)[data-rest-growth-step]) .world-tree__root {
+  stroke-dashoffset: .72;
+  opacity: .28;
+}
+
+:where(.rest-mode:not(.rest-mode--setup)[data-rest-growth-step]) .world-tree__trunk-shadow,
+:where(.rest-mode:not(.rest-mode--setup)[data-rest-growth-step]) .world-tree__trunk {
+  stroke-dashoffset: .7;
+}
+
+:where(.rest-mode:not(.rest-mode--setup)[data-rest-growth-step]) .world-tree__trunk-shadow {
+  stroke-width: 30;
+}
+
+:where(.rest-mode:not(.rest-mode--setup)[data-rest-growth-step]) .world-tree__trunk {
+  stroke-width: 20;
+}
+
+:where(.rest-mode:not(.rest-mode--setup)[data-rest-growth-step]) .world-tree__branch {
+  stroke-dashoffset: 1;
+  opacity: 0;
+}
+
+:where(.rest-mode:not(.rest-mode--setup)[data-rest-growth-step]) .world-tree__crown {
+  animation: none;
+}
+
+:where(.rest-mode:not(.rest-mode--setup)[data-rest-growth-step]) .world-tree__crown > * {
+  opacity: 0;
+  scale: .08 .02;
+  transform-box: fill-box;
+  transform-origin: center bottom;
+}
+
+:where(.rest-mode:not(.rest-mode--setup)[data-rest-growth-step]) .world-tree__light-veins {
+  opacity: 0;
+  animation: none;
+}
+
+:where(.rest-mode:not(.rest-mode--setup)[data-rest-growth-step]) .session-journey .session-growth__branch-shadow,
+:where(.rest-mode:not(.rest-mode--setup)[data-rest-growth-step]) .session-journey .session-growth__branch,
+:where(.rest-mode:not(.rest-mode--setup)[data-rest-growth-step]) .session-journey .session-growth__branch-sap {
+  stroke-dashoffset: 1;
+  opacity: 0;
+  animation-delay: var(--nf-branch-delay, 0s);
+}
+
+:where(.rest-mode:not(.rest-mode--setup)[data-rest-growth-step]) .session-journey .session-growth__bud {
+  opacity: 0;
+  scale: .12;
+  animation-delay: var(--nf-leaf-delay, 0s);
+}
+
+:where(.rest-mode:not(.rest-mode--setup)[data-rest-growth-step]) .session-journey .session-growth__leaf-blade,
+:where(.rest-mode:not(.rest-mode--setup)[data-rest-growth-step]) .session-journey .session-growth__leaf-vein {
+  opacity: 0;
+  scale: .05 0;
+  animation-delay: var(--nf-leaf-delay, 0s);
+}
+
+:where(.rest-mode:not(.rest-mode--setup)[data-rest-growth-step]) .session-journey .session-growth__ecology,
+:where(.rest-mode:not(.rest-mode--setup)[data-rest-growth-step]) .session-journey .session-growth__motes circle,
+:where(.rest-mode:not(.rest-mode--setup)[data-rest-growth-step]) .session-journey .session-growth__crown-light {
+  opacity: 0;
+}
+
+/* 0: a rooted young shoot. 1: the root plate spreads and the lower trunk
+   strengthens. 2: the complete Path-specific trunk rises. */
+.rest-mode[data-rest-growth-step="1"] .world-tree__root {
+  stroke-dashoffset: 0;
+  opacity: 1;
+  animation: nf-rest-journey-root-draw 2.1s var(--nf-tree-part-delay, 0s) cubic-bezier(.18, .72, .22, 1) both;
+}
+
+.rest-mode[data-rest-growth-step="1"] .world-tree__trunk-shadow,
+.rest-mode[data-rest-growth-step="1"] .world-tree__trunk {
+  stroke-dashoffset: .42;
+  animation: nf-rest-journey-trunk-sprout 2.35s cubic-bezier(.18, .72, .2, 1) both;
+}
+
+.rest-mode[data-rest-growth-step="1"] .world-tree__trunk-shadow { stroke-width: 35; }
+.rest-mode[data-rest-growth-step="1"] .world-tree__trunk { stroke-width: 24; }
+
+.rest-mode:is(
+  [data-rest-growth-step="2"], [data-rest-growth-step="3"],
+  [data-rest-growth-step="4"], [data-rest-growth-step="5"],
+  [data-rest-growth-step="6"], [data-rest-growth-step="7"],
+  [data-rest-growth-step="8"], [data-rest-growth-step="9"],
+  [data-rest-growth-step="10"]
+) .world-tree__root,
+.rest-mode:is(
+  [data-rest-growth-step="2"], [data-rest-growth-step="3"],
+  [data-rest-growth-step="4"], [data-rest-growth-step="5"],
+  [data-rest-growth-step="6"], [data-rest-growth-step="7"],
+  [data-rest-growth-step="8"], [data-rest-growth-step="9"],
+  [data-rest-growth-step="10"]
+) .world-tree__trunk-shadow,
+.rest-mode:is(
+  [data-rest-growth-step="2"], [data-rest-growth-step="3"],
+  [data-rest-growth-step="4"], [data-rest-growth-step="5"],
+  [data-rest-growth-step="6"], [data-rest-growth-step="7"],
+  [data-rest-growth-step="8"], [data-rest-growth-step="9"],
+  [data-rest-growth-step="10"]
+) .world-tree__trunk {
+  stroke-dashoffset: 0;
+  opacity: 1;
+}
+
+.rest-mode:is(
+  [data-rest-growth-step="2"], [data-rest-growth-step="3"],
+  [data-rest-growth-step="4"], [data-rest-growth-step="5"],
+  [data-rest-growth-step="6"], [data-rest-growth-step="7"],
+  [data-rest-growth-step="8"], [data-rest-growth-step="9"],
+  [data-rest-growth-step="10"]
+) .world-tree__trunk-shadow { stroke-width: 44; }
+
+.rest-mode:is(
+  [data-rest-growth-step="2"], [data-rest-growth-step="3"],
+  [data-rest-growth-step="4"], [data-rest-growth-step="5"],
+  [data-rest-growth-step="6"], [data-rest-growth-step="7"],
+  [data-rest-growth-step="8"], [data-rest-growth-step="9"],
+  [data-rest-growth-step="10"]
+) .world-tree__trunk { stroke-width: 32; }
+
+.rest-mode[data-rest-growth-step="2"] .world-tree__trunk-shadow,
+.rest-mode[data-rest-growth-step="2"] .world-tree__trunk {
+  animation: nf-rest-journey-trunk-rise 2.8s cubic-bezier(.16, .76, .2, 1) both;
+}
+
+/* 3: primary limbs. 4: secondary branches and connected outer twigs. */
+.rest-mode[data-rest-growth-step="3"] .world-tree__branch:nth-child(-n + 2) {
+  stroke-dashoffset: 0;
+  opacity: 1;
+  animation: nf-rest-journey-branch-draw 2.45s var(--nf-tree-part-delay, 0s) cubic-bezier(.18, .74, .2, 1) both;
+}
+
+.rest-mode:is(
+  [data-rest-growth-step="4"], [data-rest-growth-step="5"],
+  [data-rest-growth-step="6"], [data-rest-growth-step="7"],
+  [data-rest-growth-step="8"], [data-rest-growth-step="9"],
+  [data-rest-growth-step="10"]
+) .world-tree__branch {
+  stroke-dashoffset: 0;
+  opacity: 1;
+}
+
+.rest-mode[data-rest-growth-step="4"] .world-tree__branch:nth-child(n + 3) {
+  animation: nf-rest-journey-branch-draw 2.2s var(--nf-tree-part-delay, 0s) cubic-bezier(.18, .74, .2, 1) both;
+}
+
+.rest-mode[data-rest-growth-step="3"] .session-journey__stage:is(
+  .session-journey__stage--1, .session-journey__stage--2, .session-journey__stage--3
+) .session-growth__branch-system--limb,
+.rest-mode[data-rest-growth-step="4"] .session-journey__stage:is(
+  .session-journey__stage--1, .session-journey__stage--2, .session-journey__stage--3
+) .session-growth__branch-system--twig,
+.rest-mode[data-rest-growth-step="4"] .session-journey__stage:is(
+  .session-journey__stage--4, .session-journey__stage--5
+) .session-growth__branch-system {
+  --nf-session-branch-shadow-animation-name: nf-session-branch-arrive;
+  --nf-session-branch-animation-name: nf-session-branch-arrive;
+  --nf-session-sap-animation-name: nf-session-sap-run;
+}
+
+.rest-mode[data-rest-growth-step="3"] .session-journey__stage:is(
+  .session-journey__stage--1, .session-journey__stage--2, .session-journey__stage--3
+) .session-growth__branch-system--limb :is(
+  .session-growth__branch-shadow, .session-growth__branch, .session-growth__branch-sap
+),
+.rest-mode:is(
+  [data-rest-growth-step="4"], [data-rest-growth-step="5"],
+  [data-rest-growth-step="6"], [data-rest-growth-step="7"],
+  [data-rest-growth-step="8"], [data-rest-growth-step="9"],
+  [data-rest-growth-step="10"]
+) .session-journey :is(
+  .session-growth__branch-shadow, .session-growth__branch, .session-growth__branch-sap
+) {
+  stroke-dashoffset: 0;
+}
+
+.rest-mode[data-rest-growth-step="3"] .session-journey__stage:is(
+  .session-journey__stage--1, .session-journey__stage--2, .session-journey__stage--3
+) .session-growth__branch-system--limb .session-growth__branch-shadow,
+.rest-mode:is(
+  [data-rest-growth-step="4"], [data-rest-growth-step="5"],
+  [data-rest-growth-step="6"], [data-rest-growth-step="7"],
+  [data-rest-growth-step="8"], [data-rest-growth-step="9"],
+  [data-rest-growth-step="10"]
+) .session-journey .session-growth__branch-shadow { opacity: .78; }
+
+.rest-mode[data-rest-growth-step="3"] .session-journey__stage:is(
+  .session-journey__stage--1, .session-journey__stage--2, .session-journey__stage--3
+) .session-growth__branch-system--limb .session-growth__branch,
+.rest-mode:is(
+  [data-rest-growth-step="4"], [data-rest-growth-step="5"],
+  [data-rest-growth-step="6"], [data-rest-growth-step="7"],
+  [data-rest-growth-step="8"], [data-rest-growth-step="9"],
+  [data-rest-growth-step="10"]
+) .session-journey .session-growth__branch { opacity: .98; }
+
+.rest-mode[data-rest-growth-step="3"] .session-journey__stage:is(
+  .session-journey__stage--1, .session-journey__stage--2, .session-journey__stage--3
+) .session-growth__branch-system--limb .session-growth__branch-sap,
+.rest-mode:is(
+  [data-rest-growth-step="4"], [data-rest-growth-step="5"],
+  [data-rest-growth-step="6"], [data-rest-growth-step="7"],
+  [data-rest-growth-step="8"], [data-rest-growth-step="9"],
+  [data-rest-growth-step="10"]
+) .session-journey .session-growth__branch-sap { opacity: .26; }
+
+/* 5: buds. 6–8: three persistent leaf waves culminating in the full outer
+   Path canopy. */
+.rest-mode:is(
+  [data-rest-growth-step="5"], [data-rest-growth-step="6"],
+  [data-rest-growth-step="7"], [data-rest-growth-step="8"],
+  [data-rest-growth-step="9"], [data-rest-growth-step="10"]
+) .session-journey .session-growth__bud {
+  opacity: .38;
+  scale: .72;
+}
+
+.rest-mode[data-rest-growth-step="5"] .session-journey__stage {
+  --nf-session-bud-animation-name: nf-session-bud-swell;
+}
+
+.rest-mode:is(
+  [data-rest-growth-step="6"], [data-rest-growth-step="7"]
+) .session-journey__stage:is(
+  .session-journey__stage--1, .session-journey__stage--2
+) :is(.session-growth__leaf-blade, .session-growth__leaf-vein),
+.rest-mode[data-rest-growth-step="7"] .session-journey__stage--3 :is(
+  .session-growth__leaf-blade, .session-growth__leaf-vein
+),
+.rest-mode:is(
+  [data-rest-growth-step="8"], [data-rest-growth-step="9"], [data-rest-growth-step="10"]
+) .session-journey :is(.session-growth__leaf-blade, .session-growth__leaf-vein) {
+  opacity: 1;
+  scale: 1;
+}
+
+.rest-mode[data-rest-growth-step="6"] .session-journey__stage:is(
+  .session-journey__stage--1, .session-journey__stage--2
+),
+.rest-mode[data-rest-growth-step="7"] .session-journey__stage--3,
+.rest-mode[data-rest-growth-step="8"] .session-journey__stage:is(
+  .session-journey__stage--4, .session-journey__stage--5
+) {
+  --nf-session-leaf-animation-name: nf-session-leaf-arrive;
+  --nf-session-leaf-form-animation-name: nf-session-leaf-unfurl;
+}
+
+.rest-mode[data-rest-growth-step="6"] .world-tree__crown > :first-child,
+.rest-mode:is(
+  [data-rest-growth-step="7"], [data-rest-growth-step="8"],
+  [data-rest-growth-step="9"], [data-rest-growth-step="10"]
+) .world-tree__crown > :first-child {
+  opacity: 1;
+  scale: 1;
+}
+
+.rest-mode[data-rest-growth-step="6"] .world-tree__crown > :first-child {
+  animation: nf-rest-journey-leaf-wave 2.6s cubic-bezier(.16, .8, .2, 1) both;
+}
+
+.rest-mode:is(
+  [data-rest-growth-step="7"], [data-rest-growth-step="8"],
+  [data-rest-growth-step="9"], [data-rest-growth-step="10"]
+) .world-tree__crown > :nth-child(2) {
+  opacity: 1;
+  scale: 1;
+}
+
+.rest-mode[data-rest-growth-step="7"] .world-tree__crown > :nth-child(2) {
+  animation: nf-rest-journey-leaf-wave 2.6s cubic-bezier(.16, .8, .2, 1) both;
+}
+
+.rest-mode:is(
+  [data-rest-growth-step="8"], [data-rest-growth-step="9"], [data-rest-growth-step="10"]
+) .world-tree__crown > :nth-child(n + 3) {
+  opacity: 1;
+  scale: 1;
+}
+
+.rest-mode[data-rest-growth-step="8"] .world-tree__crown > :nth-child(n + 3) {
+  animation: nf-rest-journey-leaf-wave 2.8s cubic-bezier(.16, .8, .2, 1) both;
+}
+
+/* 9: meadow ecology. 10: mature crown light, sap veins and living motes. */
+.rest-mode:is([data-rest-growth-step="9"], [data-rest-growth-step="10"])
+  .session-journey .session-growth__ecology {
+  opacity: 1;
+}
+
+.rest-mode[data-rest-growth-step="9"] .session-journey .session-growth__ecology {
+  animation: nf-session-ecology-arrive 3s ease-out both;
+}
+
+.rest-mode[data-rest-growth-step="10"] .world-tree__crown {
+  animation: nf-rest-journey-crown-mature 3.8s cubic-bezier(.16, .78, .2, 1) both;
+}
+
+.rest-mode[data-rest-growth-step="10"] .world-tree__light-veins {
+  opacity: var(--nf-vein-opacity);
+  animation: nf-rest-journey-veins-awaken 3.4s ease-out both;
+}
+
+.rest-mode[data-rest-growth-step="10"] .session-journey .session-growth__crown-light {
+  opacity: 1;
+  animation: nf-rest-journey-crown-light 4s ease-out both;
+}
+
+.rest-mode[data-rest-growth-step="10"] .session-journey .session-growth__motes circle {
+  --nf-session-mote-animation-name: nf-rest-journey-mote-awaken;
+  animation-delay: var(--nf-mote-delay, 0s);
+  animation-duration: 3.4s;
+}
+
+/* Completion keeps the 16-second FSM phase, but only settles the anatomy the
+   timed journey already earned. It no longer redraws a second primary tree. */
+.rest-mode--growth[data-rest-growth-step] .session-growth__botanical > .session-growth__stage {
+  --nf-session-stage-animation: none;
+  --nf-session-branch-shadow-animation-name: none;
+  --nf-session-branch-animation-name: none;
+  --nf-session-sap-animation-name: none;
+  --nf-session-bud-animation-name: none;
+  --nf-session-leaf-animation-name: none;
+  --nf-session-leaf-form-animation-name: none;
+  --nf-session-ecology-animation: none;
+  --nf-session-mote-animation-name: none;
+}
+
+.rest-mode--growth[data-rest-growth-step] .session-journey {
+  animation: nf-rest-journey-completion-settle 16s ease-out both;
+}
+
+.rest-mode--growth[data-rest-growth-step] .session-growth__root-network path {
+  animation: none;
+  opacity: 0;
+}
+
+.rest-mode--growth[data-rest-growth-step] .session-growth__root-glow {
+  animation: nf-rest-journey-settle-glow 16s ease-out both;
+}
+
+.rest-mode--growth[data-rest-growth-step] .session-growth__trunk-light {
+  stroke-dasharray: none;
+  stroke-dashoffset: 0;
+  animation: nf-rest-journey-settle-trace 16s ease-out both;
+}
+
+@keyframes nf-cloud-forward { from { translate: -8px 0; } to { translate: 18px 1px; } }
+@keyframes nf-cloud-reverse { from { translate: 12px 0; } to { translate: -12px 2px; } }
+@keyframes nf-water-breathe { from { translate: -5px 0; opacity: .72; } to { translate: 7px 1px; opacity: 1; } }
+@keyframes nf-tree-breathe { from { rotate: -.7deg; scale: .996 1; } to { rotate: .7deg; scale: 1.004 1; } }
+@keyframes nf-star-pulse { from { opacity: .58; } to { opacity: 1; } }
+@keyframes nf-rain { from { translate: 0 -9px; opacity: .28; } to { translate: -4px 13px; opacity: .88; } }
+@keyframes nf-breeze { from { stroke-dashoffset: 0; translate: -6px 0; } to { stroke-dashoffset: -34; translate: 8px 0; } }
+@keyframes nf-growth-arrive { from { opacity: 0; scale: .92; } to { opacity: .9; scale: 1; } }
+@keyframes nf-sigil-glow { from { opacity: .1; scale: .94; } to { opacity: .24; scale: 1.04; } }
+@keyframes nf-attunement-breathe { from { scale: .96; } to { scale: 1.04; } }
+
+@keyframes nf-rest-journey-root-draw {
+  from { stroke-dashoffset: .72; opacity: .28; }
+  72% { opacity: 1; }
+  to { stroke-dashoffset: 0; opacity: 1; }
+}
+
+@keyframes nf-rest-journey-trunk-sprout {
+  from { stroke-dashoffset: .7; opacity: .72; }
+  to { stroke-dashoffset: .42; opacity: 1; }
+}
+
+@keyframes nf-rest-journey-trunk-rise {
+  from { stroke-dashoffset: .42; opacity: .82; }
+  74% { stroke-dashoffset: 0; opacity: 1; }
+  to { stroke-dashoffset: 0; opacity: 1; }
+}
+
+@keyframes nf-rest-journey-branch-draw {
+  from { stroke-dashoffset: 1; opacity: 0; }
+  16% { opacity: .9; }
+  to { stroke-dashoffset: 0; opacity: 1; }
+}
+
+@keyframes nf-rest-journey-leaf-wave {
+  from { opacity: 0; scale: .08 .02; }
+  68% { opacity: 1; scale: 1.06 1.04; }
+  to { opacity: 1; scale: 1; }
+}
+
+@keyframes nf-rest-journey-crown-mature {
+  from { opacity: var(--nf-crown-opacity); scale: .985 .97; }
+  54% { opacity: 1; scale: 1.035 1.045; }
+  to { opacity: var(--nf-crown-opacity); scale: 1; }
+}
+
+@keyframes nf-rest-journey-veins-awaken {
+  from { opacity: 0; }
+  58% { opacity: 1; }
+  to { opacity: var(--nf-vein-opacity); }
+}
+
+@keyframes nf-rest-journey-crown-light {
+  from { opacity: 0; scale: .82; }
+  56% { opacity: .9; scale: 1.07; }
+  to { opacity: 1; scale: 1; }
+}
+
+@keyframes nf-rest-journey-mote-awaken {
+  from { opacity: 0; translate: 0 9px; scale: .5; }
+  58% { opacity: .94; translate: 3px -8px; scale: 1.18; }
+  to { opacity: .52; translate: 0 -14px; scale: 1; }
+}
+
+@keyframes nf-rest-journey-completion-settle {
+  from { opacity: .86; filter: drop-shadow(0 0 0 rgb(239 255 165 / 0%)); }
+  32% { opacity: 1; filter: drop-shadow(0 0 9px rgb(239 255 165 / 38%)); }
+  to { opacity: 1; filter: drop-shadow(0 0 0 rgb(239 255 165 / 0%)); }
+}
+
+@keyframes nf-rest-journey-settle-glow {
+  0%, 100% { opacity: .08; scale: 1; }
+  34% { opacity: .3; scale: 1.035; }
+}
+
+@keyframes nf-rest-journey-settle-trace {
+  0%, 100% { opacity: .04; }
+  34% { opacity: .24; }
+}
+
+@keyframes nf-rest-reduced-root-reveal {
+  from { opacity: 0; }
+  to { opacity: .78; }
+}
+
+@keyframes nf-rest-reduced-mote-reveal {
+  from { opacity: 0; }
+  to { opacity: .52; }
+}
+
+/* 16-second Rest growth score:
+   0–2 roots, 2–5 trunk/branch, 5–10 leaves, 10–14 ecology, 14–16 settle. */
+@keyframes nf-session-root-awaken {
+  0% { opacity: 0; scale: .82; }
+  36% { opacity: .86; scale: 1.08; }
+  72% { opacity: .46; scale: 1.02; }
+  100% { opacity: .12; scale: 1; }
+}
+
+@keyframes nf-session-root-spread {
+  0% { stroke-dashoffset: 1; opacity: 0; }
+  18% { opacity: .94; }
+  74% { stroke-dashoffset: 0; opacity: .88; }
+  100% { stroke-dashoffset: 0; opacity: 0; }
+}
+
+@keyframes nf-session-trunk-rise {
+  0% { stroke-dashoffset: 1; opacity: 0; }
+  10% { opacity: .98; }
+  76% { stroke-dashoffset: 0; opacity: 1; }
+  100% { stroke-dashoffset: 0; opacity: .1; }
+}
+
+@keyframes nf-session-branch-arrive {
+  0% { stroke-dasharray: 1; stroke-dashoffset: 1; opacity: 0; }
+  14% { opacity: .96; }
+  82% { stroke-dasharray: 1; stroke-dashoffset: 0; opacity: 1; }
+  100% { stroke-dasharray: 1; stroke-dashoffset: 0; opacity: 1; }
+}
+
+@keyframes nf-session-sap-run {
+  0% { stroke-dasharray: .1 .9; stroke-dashoffset: 1; opacity: 0; }
+  16% { opacity: .98; }
+  76% { stroke-dasharray: .1 .9; stroke-dashoffset: 0; opacity: .94; }
+  100% { stroke-dasharray: .1 .9; stroke-dashoffset: -.12; opacity: .24; }
+}
+
+@keyframes nf-session-bud-swell {
+  0% { opacity: 0; scale: .12; }
+  52% { opacity: 1; scale: 1.28; }
+  78% { opacity: .92; scale: .9; }
+  100% { opacity: .38; scale: .72; }
+}
+
+@keyframes nf-session-leaf-arrive {
+  0% { opacity: 0; filter: drop-shadow(0 0 0 rgb(242 255 172 / 0%)); }
+  20% { opacity: .72; }
+  62% { opacity: 1; filter: drop-shadow(0 0 13px rgb(242 255 172 / 88%)); }
+  100% { opacity: .98; filter: drop-shadow(0 3px 4px rgb(18 63 48 / 26%)); }
+}
+
+@keyframes nf-session-leaf-unfurl {
+  0% { scale: .05 0; }
+  32% { scale: .36 .54; }
+  72% { scale: 1.1 1.06; }
+  100% { scale: 1; }
+}
+
+@keyframes nf-session-mote-rise {
+  0% { opacity: 0; translate: 0 12px; scale: .62; }
+  28% { opacity: .96; }
+  66% { opacity: .72; translate: 5px -12px; scale: 1.16; }
+  100% { opacity: 0; translate: -3px -30px; scale: .74; }
+}
+
+@keyframes nf-session-ecology-arrive {
+  0% { opacity: 0; translate: 0 10px; }
+  42% { opacity: .92; translate: 0 0; }
+  70% { opacity: .72; }
+  100% { opacity: 1; translate: 0 0; }
+}
+
+@keyframes nf-session-settle {
+  0%, 42% { filter: drop-shadow(0 0 14px rgb(239 255 165 / 74%)); }
+  100% { filter: drop-shadow(0 0 0 rgb(239 255 165 / 0%)); }
+}
+
+@keyframes nf-session-tree-lift {
+  0% { scale: .985 .965; }
+  34% { scale: 1.01 1.026; }
+  72% { scale: 1.004 1.014; }
+  100% { scale: 1; }
+}
+
+@keyframes nf-session-canopy-bloom {
+  0% { scale: .975 .94; opacity: .72; }
+  42% { scale: 1.035 1.055; opacity: 1; }
+  76% { scale: 1.012 1.024; opacity: var(--nf-crown-opacity); }
+  100% { scale: 1; opacity: var(--nf-crown-opacity); }
+}
+
+@keyframes nf-session-firefly {
+  from { opacity: .38; scale: .82; }
+  to { opacity: 1; scale: 1.18; }
+}
+
+@keyframes nf-session-renewal-root {
+  0% { opacity: .08; scale: .94; }
+  42% { opacity: .72; scale: 1.06; }
+  100% { opacity: .12; scale: 1; }
+}
+
+@keyframes nf-session-renewal-light {
+  0% { opacity: .18; scale: .72; }
+  48% { opacity: 1; scale: 1.24; }
+  100% { opacity: .7; scale: 1; }
+}
+
+@keyframes nf-session-renewal-ring {
+  0% { stroke-dasharray: 280; stroke-dashoffset: 280; opacity: 0; }
+  72% { stroke-dasharray: 280; stroke-dashoffset: 0; opacity: .88; }
+  100% { stroke-dasharray: 280; stroke-dashoffset: 0; opacity: .56; }
+}
+
+@keyframes nf-session-growth-mark {
+  from { opacity: .66; rotate: -8deg; scale: .92; }
+  to { opacity: 1; rotate: 8deg; scale: 1.08; }
+}
+
+@keyframes nf-session-sun-breathe {
+  from { filter: brightness(.94); translate: -3px 1px; }
+  to { filter: brightness(1.04); translate: 3px -2px; }
+}
+
+@keyframes nf-session-meadow-breathe {
+  from { opacity: .58; transform: skewX(-.35deg); }
+  to { opacity: .78; transform: skewX(.35deg); }
+}
+
+@keyframes nf-session-vein-breathe {
+  from { opacity: calc(var(--nf-vein-opacity) * .72); }
+  to { opacity: var(--nf-vein-opacity); }
+}
+
+@keyframes nf-session-opacity-crossfade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes nf-session-timeline-crossfade {
+  0%, 100% { opacity: 0; }
+  45% { opacity: .68; }
+}
+
+@media (max-width: 900px) {
+  .rest-mode__hud {
+    right: max(1rem, env(safe-area-inset-right));
+    width: auto;
+    max-width: none;
+    flex-wrap: wrap;
+  }
+  .rest-mode__hud-copy {
+    flex: 1 1 12rem;
+    min-width: 0;
+  }
+  .rest-mode__hud-actions {
+    flex: 1 0 100%;
+  }
+}
+
+@media (max-width: 760px) {
+  .living-world { min-height: 17rem; aspect-ratio: 4 / 3; border-radius: 1.2rem; }
+  .attunement-field__ratings { grid-template-columns: repeat(5, minmax(3.1rem, 1fr)); overflow-x: auto; padding: .2rem; }
+  .attunement-field__ratings small { display: none; }
+  .care-action-picker__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .care-action-picker__option:last-child { grid-column: 1 / -1; }
+  .rest-mode {
+    padding:
+      max(.35rem, env(safe-area-inset-top))
+      max(.35rem, env(safe-area-inset-right))
+      max(.35rem, env(safe-area-inset-bottom))
+      max(.35rem, env(safe-area-inset-left));
+  }
+  .rest-mode__dialog {
+    height: calc(100dvh - .7rem);
+    border-radius: 1rem;
+  }
+  .rest-mode__controls {
+    top: auto;
+    right: max(.7rem, env(safe-area-inset-right));
+    bottom: max(.7rem, env(safe-area-inset-bottom));
+    left: max(.7rem, env(safe-area-inset-left));
+    width: auto;
+    max-height: calc(100% - 1.4rem);
+    padding: 1rem;
+  }
+  .rest-mode__audio--expanded {
+    grid-template-columns: 1fr;
+    gap: .5rem;
+  }
+  .rest-mode__audio--expanded .rest-mode__audio-toggle {
+    justify-self: start;
+  }
+  .rest-mode__hud {
+    top: max(.7rem, env(safe-area-inset-top));
+    right: max(.7rem, env(safe-area-inset-right));
+    left: max(.7rem, env(safe-area-inset-left));
+    width: auto;
+    max-width: none;
+    min-height: 0;
+    flex-wrap: wrap;
+    gap: .65rem;
+    padding: .75rem;
+  }
+  .rest-mode__hud-copy {
+    flex: 1 1 10rem;
+    min-width: 0;
+  }
+  .rest-mode__hud .rest-mode__eyebrow {
+    display: none;
+  }
+  .rest-mode__timer {
+    width: 4rem;
+    height: 4rem;
+    font-size: .9rem;
+  }
+  .rest-mode__hud-actions {
+    flex: 1 0 100%;
+  }
+  .rest-mode__hud-actions .rest-mode__close,
+  .rest-mode__hud-actions .rest-mode__audio-toggle {
+    flex: 1 1 8rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .living-world *,
+  .living-world *::before,
+  .living-world *::after,
+  .path-growth__event,
+  .daily-sigil-merge__halo,
+  .attunement-field__orb {
+    animation-duration: .001ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+  }
+
+  .rest-mode--growth .session-growth__root-glow,
+  .rest-mode--growth .session-growth__root-network path,
+  .rest-mode--growth .session-growth__trunk-light {
+    stroke-dasharray: none !important;
+    stroke-dashoffset: 0 !important;
+    animation: nf-session-timeline-crossfade .9s ease both !important;
+  }
+
+  .rest-mode--growth .world-tree__branches,
+  .rest-mode--growth .world-tree__crown {
+    animation: none !important;
+  }
+
+  .rest-mode--growth[data-entering-stage="1"] .session-growth__botanical > .session-growth__stage--1,
+  .rest-mode--growth[data-entering-stage="2"] .session-growth__botanical > .session-growth__stage--2,
+  .rest-mode--growth[data-entering-stage="3"] .session-growth__botanical > .session-growth__stage--3,
+  .rest-mode--growth[data-entering-stage="4"] .session-growth__botanical > .session-growth__stage--4,
+  .rest-mode--growth[data-entering-stage="5"] .session-growth__botanical > .session-growth__stage--5 {
+    animation: nf-session-opacity-crossfade .9s ease both !important;
+  }
+
+  .rest-mode--growth .session-growth__stage *,
+  .rest-mode--growth .session-growth__renewal * {
+    stroke-dasharray: none !important;
+    stroke-dashoffset: 0 !important;
+    animation: none !important;
+  }
+
+  :where(.rest-mode:not(.rest-mode--setup)[data-rest-growth-step]) :is(
+    .world-tree__root, .world-tree__trunk-shadow, .world-tree__trunk,
+    .world-tree__branch, .world-tree__crown, .world-tree__crown > *,
+    .world-tree__light-veins, .session-journey, .session-journey *
+  ) {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  .rest-mode[data-rest-growth-step="1"] .world-tree__roots {
+    animation: nf-rest-reduced-root-reveal .45s ease both !important;
+  }
+
+  .rest-mode:is([data-rest-growth-step="1"], [data-rest-growth-step="2"])
+    :is(.world-tree__trunk-shadows, .world-tree__trunks),
+  .rest-mode:is([data-rest-growth-step="3"], [data-rest-growth-step="4"])
+    .world-tree__branches,
+  .rest-mode[data-rest-growth-step="3"] .session-journey__stage:is(
+    .session-journey__stage--1, .session-journey__stage--2, .session-journey__stage--3
+  ),
+  .rest-mode[data-rest-growth-step="4"] .session-journey,
+  .rest-mode[data-rest-growth-step="5"] .session-journey .session-growth__leaves,
+  .rest-mode[data-rest-growth-step="6"] .session-journey__stage:is(
+    .session-journey__stage--1, .session-journey__stage--2
+  ) .session-growth__leaves,
+  .rest-mode[data-rest-growth-step="7"] .session-journey__stage--3 .session-growth__leaves,
+  .rest-mode[data-rest-growth-step="8"] .session-journey__stage:is(
+    .session-journey__stage--4, .session-journey__stage--5
+  ) .session-growth__leaves,
+  .rest-mode[data-rest-growth-step="9"] .session-journey .session-growth__ecology,
+  .rest-mode[data-rest-growth-step="10"] .session-journey .session-growth__crown-light {
+    animation: nf-session-opacity-crossfade .45s ease both !important;
+  }
+
+  .rest-mode[data-rest-growth-step="6"] .world-tree__crown > :first-child,
+  .rest-mode[data-rest-growth-step="7"] .world-tree__crown > :nth-child(2),
+  .rest-mode[data-rest-growth-step="8"] .world-tree__crown > :nth-child(n + 3) {
+    animation: nf-session-opacity-crossfade .45s ease both !important;
+  }
+
+  .rest-mode[data-rest-growth-step="10"] .world-tree__light-veins {
+    animation: nf-rest-journey-veins-awaken .45s ease both !important;
+  }
+
+  .rest-mode[data-rest-growth-step="10"] .session-journey .session-growth__motes circle {
+    animation: nf-rest-reduced-mote-reveal .45s ease both !important;
+  }
+}
+
+/* The explicit class mirrors the media query for deterministic QA and keeps
+   the shortened sequence to an opacity-only crossfade. */
+.rest-mode--reduced .living-world *,
+.rest-mode--reduced .rest-mode__growth-mark {
+  animation: none !important;
+  transition: none !important;
+}
+
+.rest-mode--reduced.rest-mode--growth .session-growth__root-glow,
+.rest-mode--reduced.rest-mode--growth .session-growth__root-network path,
+.rest-mode--reduced.rest-mode--growth .session-growth__trunk-light {
+  stroke-dasharray: none !important;
+  stroke-dashoffset: 0 !important;
+  animation: nf-session-timeline-crossfade .9s ease both !important;
+}
+
+.rest-mode--reduced.rest-mode--growth[data-entering-stage="1"] .session-growth__botanical > .session-growth__stage--1,
+.rest-mode--reduced.rest-mode--growth[data-entering-stage="2"] .session-growth__botanical > .session-growth__stage--2,
+.rest-mode--reduced.rest-mode--growth[data-entering-stage="3"] .session-growth__botanical > .session-growth__stage--3,
+.rest-mode--reduced.rest-mode--growth[data-entering-stage="4"] .session-growth__botanical > .session-growth__stage--4,
+.rest-mode--reduced.rest-mode--growth[data-entering-stage="5"] .session-growth__botanical > .session-growth__stage--5 {
+  animation: nf-session-opacity-crossfade .9s ease both !important;
+}
+
+.rest-mode--reduced.rest-mode--growth .session-growth__stage *,
+.rest-mode--reduced.rest-mode--growth .session-growth__renewal * {
+  stroke-dasharray: none !important;
+  stroke-dashoffset: 0 !important;
+  animation: none !important;
+}
+
+.rest-mode--reduced:not(.rest-mode--setup)[data-rest-growth-step] :is(
+  .world-tree__root, .world-tree__trunk-shadow, .world-tree__trunk,
+  .world-tree__branch, .world-tree__crown, .world-tree__crown > *,
+  .world-tree__light-veins, .session-journey, .session-journey *
+) {
+  animation: none !important;
+  transition: none !important;
+}
+
+.rest-mode--reduced[data-rest-growth-step="1"] .world-tree__roots {
+  animation: nf-rest-reduced-root-reveal .45s ease both !important;
+}
+
+.rest-mode--reduced:is([data-rest-growth-step="1"], [data-rest-growth-step="2"])
+  :is(.world-tree__trunk-shadows, .world-tree__trunks),
+.rest-mode--reduced:is([data-rest-growth-step="3"], [data-rest-growth-step="4"])
+  .world-tree__branches,
+.rest-mode--reduced[data-rest-growth-step="3"] .session-journey__stage:is(
+  .session-journey__stage--1, .session-journey__stage--2, .session-journey__stage--3
+),
+.rest-mode--reduced[data-rest-growth-step="4"] .session-journey,
+.rest-mode--reduced[data-rest-growth-step="5"] .session-journey .session-growth__leaves,
+.rest-mode--reduced[data-rest-growth-step="6"] .session-journey__stage:is(
+  .session-journey__stage--1, .session-journey__stage--2
+) .session-growth__leaves,
+.rest-mode--reduced[data-rest-growth-step="7"] .session-journey__stage--3 .session-growth__leaves,
+.rest-mode--reduced[data-rest-growth-step="8"] .session-journey__stage:is(
+  .session-journey__stage--4, .session-journey__stage--5
+) .session-growth__leaves,
+.rest-mode--reduced[data-rest-growth-step="9"] .session-journey .session-growth__ecology,
+.rest-mode--reduced[data-rest-growth-step="10"] .session-journey .session-growth__crown-light {
+  animation: nf-session-opacity-crossfade .45s ease both !important;
+}
+
+.rest-mode--reduced[data-rest-growth-step="6"] .world-tree__crown > :first-child,
+.rest-mode--reduced[data-rest-growth-step="7"] .world-tree__crown > :nth-child(2),
+.rest-mode--reduced[data-rest-growth-step="8"] .world-tree__crown > :nth-child(n + 3) {
+  animation: nf-session-opacity-crossfade .45s ease both !important;
+}
+
+.rest-mode--reduced[data-rest-growth-step="10"] .world-tree__light-veins {
+  animation: nf-rest-journey-veins-awaken .45s ease both !important;
+}
+
+.rest-mode--reduced[data-rest-growth-step="10"] .session-journey .session-growth__motes circle {
+  animation: nf-rest-reduced-mote-reveal .45s ease both !important;
+}
+
+@media (forced-colors: active) {
+  .living-world { border: 2px solid CanvasText; forced-color-adjust: none; }
+  .attunement-field,
+  .care-action-picker,
+  .rest-mode__controls,
+  .rest-mode__hud { border: 1px solid CanvasText; }
+  .attunement-field input:checked + span,
+  .care-action-picker__option input:checked + span { outline: 3px solid Highlight; }
+}
