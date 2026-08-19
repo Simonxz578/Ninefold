@@ -26,9 +26,10 @@ export function V3Shell({ children, builderMode = false }: V3ShellProps) {
   const [navigationOpen, setNavigationOpen] = useState(false);
   const route = stripLocale(pathname);
   const navigation = [
+    { path: "/world", label: locale === "zh-CN" ? "九境" : "Ninefold" },
     { path: "/today", label: copy.navigation.today },
     { path: "/growth", label: copy.navigation.growth },
-    { path: "/about", label: copy.navigation.about },
+    { path: "/about", label: locale === "zh-CN" ? "原理" : "Method" },
   ] as const;
 
   useEffect(() => {
@@ -63,7 +64,7 @@ export function V3Shell({ children, builderMode = false }: V3ShellProps) {
         <div className="v3-shell__header-inner">
           <NavLink
             className="v3-shell__brand"
-            to={localizedPath("/", locale)}
+            to={localizedPath(builderMode ? "/" : "/world", locale)}
             aria-label={copy.brand.homeLabel}
           >
             <LogoMark />

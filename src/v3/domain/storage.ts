@@ -174,7 +174,8 @@ export function isNinefoldV3State(value: unknown): value is NinefoldV3State {
       mood: checkIn.mood,
       energy: checkIn.energy,
     });
-    return readingsMatch(checkIn.semanticReading, expectedReading);
+    return checkIn.semanticReading.personalityCode === profile.personality.code
+      && checkIn.semanticReading.adviceId === expectedReading.adviceId;
   });
 }
 
@@ -216,20 +217,6 @@ export function isDraftWorldIdentity(value: unknown): value is DraftWorldIdentit
     && oneOf(value.preferredAmbientMode, AMBIENT_MODES)
     && stagePrerequisites
     && isIsoInstant(value.updatedAt);
-}
-
-function readingsMatch(
-  actual: DailyCheckInV3["semanticReading"],
-  expected: DailyCheckInV3["semanticReading"],
-): boolean {
-  return actual.version === expected.version
-    && actual.sourceDate === expected.sourceDate
-    && actual.personalityCode === expected.personalityCode
-    && actual.stateCell === expected.stateCell
-    && actual.keywordId === expected.keywordId
-    && actual.adviceId === expected.adviceId
-    && actual.favourIds.every((id, index) => id === expected.favourIds[index])
-    && actual.easeOffIds.every((id, index) => id === expected.easeOffIds[index]);
 }
 
 function isPartialPreferenceAnswers(value: unknown): boolean {

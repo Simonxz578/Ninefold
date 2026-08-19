@@ -1,8 +1,10 @@
 import { Navigate } from "react-router-dom";
+import { lazy, Suspense, useState } from "react";
 import { formatDateForLocale, interpolate, localizedPath } from "../../i18n";
 import { useV3App } from "../V3App";
 import { V3Shell } from "../components/V3Shell";
 import { WorldScene } from "../components/WorldScene";
+const GrowthCalendar = lazy(() => import("../components/GrowthCalendar").then((module) => ({ default: module.GrowthCalendar })));
 import type { CloudArchetype } from "../domain";
 import type { CloudArchetype as SceneCloudArchetype } from "../worldData";
 
@@ -15,6 +17,7 @@ const SCENE_CLOUDS: Readonly<Record<CloudArchetype, SceneCloudArchetype>> = {
 
 export function GrowthPage() {
   const { locale, copy, state, todayCheckIn, newLeafIndex } = useV3App();
+  const [view, setView] = useState<"tree" | "calendar">("tree");
 
   if (!state) return <Navigate replace to={localizedPath("/", locale)} />;
 
@@ -33,6 +36,13 @@ export function GrowthPage() {
           <h1>{copy.growth.title}</h1>
           <p>{copy.growth.intro}</p>
         </header>
+
+        <div className="v3-growth__switch" role="group" aria-label={locale === "zh-CN" ? "生长视图" : "Growth view"}>
+          <button type="button" aria-pressed={view === "tree"} onClick={() => setView("tree")}>{locale === "zh-CN" ? "树" : "Tree"}</button>
+          <button type="button" aria-pressed={view === "calendar"} onClick={() => setView("calendar")}>{locale === "zh-CN" ? "日历" : "Calendar"}</button>
+        </div>
+
+        {view === "calendar" ? <Suspense fallback={<p role="status">{locale === "zh-CN" ? "正在打开日历…" : "Opening calendar…"}</p>}><GrowthCalendar state={state} locale={locale} /></Suspense> : <>
 
         <section className="v3-growth__world" aria-labelledby="v3-growth-tree-heading">
           <h2 className="sr-only" id="v3-growth-tree-heading">{copy.growth.treeHeading}</h2>
@@ -93,6 +103,7 @@ export function GrowthPage() {
             </ol>
           )}
         </section>
+        </>}
       </article>
     </V3Shell>
   );

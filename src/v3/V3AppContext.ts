@@ -3,6 +3,7 @@ import type { Locale } from "../i18n";
 import type { V3Copy } from "./copy";
 import type {
   AmbientMode,
+  CloudArchetype,
   BreathingDurationSeconds,
   DailyCheckInV3,
   DraftWorldIdentity,
@@ -10,6 +11,7 @@ import type {
   PreferenceAnswersV3,
   RatingNine,
 } from "./domain";
+import type { PathNumber } from "../domain";
 
 export type V3StorageErrorKind = "unavailable" | "corrupt" | "read" | "write";
 
@@ -57,6 +59,7 @@ export interface V3AppContextValue {
   completeDailySession: (input: CompleteDailySessionInput) => CompleteDailySessionResult;
   updatePreferences: (answers: PreferenceAnswersV3) => boolean;
   updateAudioPreferences: (input: UpdateAudioPreferencesInput) => boolean;
+  redrawWorld: (cloudArchetype: CloudArchetype, worldPrototype: PathNumber) => boolean;
   clearNewLeaf: () => void;
   resetV3: () => boolean;
   refreshFromStorage: () => void;

@@ -239,7 +239,7 @@ export function WorldBuilderPage() {
                   : ""}
               </p>
               <BuilderError message={error} />
-              <button className="v3-primary-action" type="button" onClick={saveCloud}>{copy.builder.clouds.continue}</button>
+              <div className="v3-actions"><button className="v3-text-action" type="button" onClick={() => updateDraft({ stage: "birth-date" })}>{copy.common.back}</button><button className="v3-primary-action" type="button" onClick={saveCloud}>{copy.builder.clouds.continue}</button></div>
             </section>
           )}
 
@@ -260,7 +260,7 @@ export function WorldBuilderPage() {
                   : ""}
               </p>
               <BuilderError message={error} />
-              <button className="v3-primary-action" type="button" onClick={saveWorld}>{copy.builder.worlds.confirm}</button>
+              <div className="v3-actions"><button className="v3-text-action" type="button" onClick={() => updateDraft({ stage: "cloud" })}>{copy.common.back}</button><button className="v3-primary-action" type="button" onClick={saveWorld}>{copy.builder.worlds.confirm}</button></div>
             </section>
           )}
 

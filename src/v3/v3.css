@@ -1912,6 +1912,29 @@ body.ninefold-v3-builder-active {
   }
 }
 
+.v3-world-page > header { max-width: 42rem; margin-bottom: 1.5rem; }
+.v3-world-page .v3-world-scene { min-height: min(64vh, 44rem); margin-bottom: 1.25rem; }
+.v3-redraw { margin-top: 1.5rem; padding: clamp(1rem, 3vw, 2rem); border: 1px solid color-mix(in srgb, var(--v3-ink) 18%, transparent); border-radius: 1.25rem; background: color-mix(in srgb, var(--v3-paper) 88%, transparent); }
+.v3-redraw .v3-cloud-grid label { display: grid; gap: .3rem; }
+.v3-growth__switch { display: inline-flex; gap: .35rem; margin: 1rem 0 1.5rem; padding: .3rem; border: 1px solid currentColor; border-radius: 999px; }
+.v3-growth__switch button { border: 0; border-radius: 999px; background: transparent; padding: .55rem 1rem; color: inherit; }
+.v3-growth__switch button[aria-pressed="true"] { background: var(--v3-ink); color: var(--v3-paper); }
+.v3-calendar { position: relative; padding: clamp(.7rem, 2vw, 1.4rem); border: 1px solid color-mix(in srgb, var(--v3-ink) 17%, transparent); border-radius: 1.25rem; background: color-mix(in srgb, var(--v3-paper) 88%, transparent); }
+.v3-calendar__toolbar, .v3-calendar__toolbar > div { display: flex; align-items: center; justify-content: space-between; gap: .5rem; }
+.v3-calendar__toolbar button { min-width: 2.5rem; min-height: 2.5rem; border: 1px solid currentColor; border-radius: 999px; background: transparent; color: inherit; }
+.v3-calendar__weekdays, .v3-calendar__grid { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); }
+.v3-calendar__weekdays span { padding: .65rem .25rem; text-align: center; font-size: .75rem; opacity: .65; }
+.v3-calendar__grid > button { position: relative; display: grid; align-content: start; gap: .15rem; min-height: 6.2rem; padding: .55rem; border: 1px solid color-mix(in srgb, var(--v3-ink) 11%, transparent); background: transparent; color: inherit; text-align: left; }
+.v3-calendar__grid > button.is-outside { opacity: .38; }
+.v3-calendar__grid > button.is-holiday { background: color-mix(in srgb, #bc6c4c 10%, transparent); }
+.v3-calendar__grid > button.is-workday { background: color-mix(in srgb, #607c67 10%, transparent); }
+.v3-calendar__grid small { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.v3-calendar__grid i { position: absolute; top: .4rem; right: .4rem; font-size: .65rem; font-style: normal; }
+.v3-calendar__marker { align-self: end; justify-self: end; min-width: 1.35rem; border-radius: 999px; background: var(--v3-ink); color: var(--v3-paper); font-size: .7rem; text-align: center; }
+.v3-calendar__dialog { position: fixed; z-index: 30; inset: 0; display: grid; place-items: center; padding: 1rem; background: rgb(10 17 20 / .48); }
+.v3-calendar__dialog > div { width: min(28rem, 100%); padding: 1.5rem; border-radius: 1rem; background: var(--v3-paper); color: var(--v3-ink); box-shadow: 0 1rem 4rem rgb(0 0 0 / .25); }
+@media (max-width: 42rem) { .v3-calendar__grid > button { min-height: 4.6rem; padding: .3rem; } .v3-calendar__grid small { font-size: .65rem; } .v3-calendar__grid i { display: none; } }
+
 @keyframes v3-reduced-reveal {
   from { opacity: 0; }
   to { opacity: 1; }

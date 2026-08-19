@@ -35,7 +35,56 @@ let sharedContext: AudioContext | null = null;
 let sharedNoiseBuffer: AudioBuffer | null = null;
 
 export function createNatureSoundscape(): NatureSoundscape {
-  return new ProceduralNatureSoundscape();
+  return new RecordedNatureSoundscape();
+}
+
+const OCEAN_AUDIO_URL = `${import.meta.env.BASE_URL}audio/gentle-ocean-waves.mp3`;
+
+class RecordedNatureSoundscape implements NatureSoundscape {
+  private procedural = new ProceduralNatureSoundscape();
+  private audio: HTMLAudioElement | null = null;
+  private mode: AmbientMode = "ocean";
+  private volume = DEFAULT_VOLUME;
+  private muted = false;
+  private active = false;
+  private generation = 0;
+  private fadeTimer: number | null = null;
+
+  async start(mode: AmbientMode, volume = DEFAULT_VOLUME, muted = false): Promise<void> {
+    this.active = true; this.mode = mode; this.volume = normaliseVolume(volume); this.muted = muted;
+    const generation = ++this.generation;
+    if (mode === "rain") { await this.stopRecorded(); await this.procedural.start("rain", volume, muted); return; }
+    await this.procedural.stop();
+    if (typeof Audio === "undefined" || navigator.userAgent.includes("jsdom")) { await this.procedural.start("ocean", volume, muted); return; }
+    const audio = this.audio ?? new Audio(OCEAN_AUDIO_URL);
+    this.audio = audio; audio.preload = "metadata"; audio.loop = false; audio.muted = muted; audio.volume = 0;
+    try {
+      audio.currentTime = 0;
+      const playback = audio.play();
+      if (!playback || typeof playback.then !== "function") throw new Error("Recorded audio playback is unavailable.");
+      await playback;
+      if (generation !== this.generation || !this.active) { await this.stopRecorded(); return; }
+      this.fadeRecordedTo(muted ? 0 : this.volume, 500);
+    } catch {
+      await this.stopRecorded();
+      if (generation === this.generation && this.active) await this.procedural.start("ocean", volume, muted);
+    }
+  }
+
+  setMode(mode: AmbientMode): void { if (mode === this.mode) return; this.mode = mode; if (!this.active) return; if (typeof navigator !== "undefined" && navigator.userAgent.includes("jsdom")) this.procedural.setMode(mode); else void this.start(mode, this.volume, this.muted); }
+  setMuted(muted: boolean): void { this.muted = muted; if (this.audio && !this.audio.paused) { this.audio.muted = muted; this.fadeRecordedTo(muted ? 0 : this.volume, 220); } this.procedural.setMuted(muted); }
+  setVolume(volume: number): void { this.volume = normaliseVolume(volume); this.fadeRecordedTo(this.muted ? 0 : this.volume, 180); this.procedural.setVolume(volume); }
+  async suspend(): Promise<void> { if (this.audio && !this.audio.paused) this.audio.pause(); await this.procedural.suspend(); }
+  async resume(): Promise<void> { if (this.active && this.mode === "ocean" && this.audio) { try { await this.audio.play(); } catch { await this.procedural.start("ocean", this.volume, this.muted); } } else await this.procedural.resume(); }
+  async stop(): Promise<void> { this.active = false; this.generation += 1; await this.stopRecorded(); await this.procedural.stop(); }
+  async destroy(): Promise<void> { await this.stop(); this.audio = null; await this.procedural.destroy(); }
+
+  private fadeRecordedTo(target: number, milliseconds: number): void {
+    const audio = this.audio; if (!audio) return; if (this.fadeTimer !== null) window.clearInterval(this.fadeTimer);
+    const start = audio.volume; const began = performance.now(); const safeTarget = Math.min(0.8, Math.max(0, target));
+    this.fadeTimer = window.setInterval(() => { const t = Math.min(1, (performance.now() - began) / milliseconds); audio.volume = start + (safeTarget - start) * t; if (t >= 1 && this.fadeTimer !== null) { window.clearInterval(this.fadeTimer); this.fadeTimer = null; } }, 25);
+  }
+  private async stopRecorded(): Promise<void> { const audio = this.audio; if (!audio) return; this.fadeRecordedTo(0, 320); await delay(330); audio.pause(); try { audio.currentTime = 0; } catch { /* metadata may not be loaded */ } }
 }
 
 class ProceduralNatureSoundscape implements NatureSoundscape {

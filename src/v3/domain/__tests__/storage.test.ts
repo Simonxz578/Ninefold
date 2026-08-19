@@ -162,6 +162,18 @@ describe("Ninefold V3 atomic storage", () => {
     })).toBe(false);
     expect(isNinefoldV3State({
       ...state,
+      checkIns: {
+        "2026-08-19": {
+          ...state.checkIns["2026-08-19"],
+          semanticReading: {
+            ...state.checkIns["2026-08-19"]!.semanticReading,
+            adviceId: "e-low-low",
+          },
+        },
+      },
+    })).toBe(false);
+    expect(isNinefoldV3State({
+      ...state,
       world: { ...state.world, profileId: "different-profile" },
     })).toBe(false);
     expect(isNinefoldV3State({
@@ -188,7 +200,7 @@ describe("Ninefold V3 atomic storage", () => {
           },
         },
       },
-    })).toBe(false);
+    })).toBe(true);
     expect(isNinefoldV3State({
       ...state,
       meditation: {

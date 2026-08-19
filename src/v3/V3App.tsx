@@ -16,6 +16,7 @@ import { localDateKey } from "../utils/date";
 import { getV3Copy } from "./copy";
 import {
   AMBIENT_MODES,
+  CLOUD_ARCHETYPES,
   EMPTY_MEDITATION_PROGRESS_V3,
   V3_LEAF_LAYOUT_VERSION,
   V3_SCHEMA_VERSION,
@@ -29,6 +30,7 @@ import {
   ninefoldV3Storage,
   recordCompletedSession,
   type DraftWorldIdentity,
+  type CloudArchetype,
   type NinefoldV3State,
   type V3StorageDiagnostic,
   type V3StorageWriteResult,
@@ -39,6 +41,7 @@ import { GrowthPage } from "./pages/GrowthPage";
 import { PreferencesPage } from "./pages/PreferencesPage";
 import { TodayPage } from "./pages/TodayPage";
 import { WorldBuilderPage } from "./pages/WorldBuilderPage";
+import { WorldPage } from "./pages/WorldPage";
 
 export { useV3App } from "./V3AppContext";
 export type {
@@ -210,12 +213,19 @@ function V3ControllerProvider({ children }: { children: ReactNode }) {
         mood: input.mood,
         energy: input.energy,
       });
+      const previous = current.checkIns[localDate]?.semanticReading;
+      const sealedReading = previous ? {
+        ...semanticReading,
+        keywordId: previous.keywordId,
+        favourIds: previous.favourIds,
+        easeOffIds: previous.easeOffIds,
+      } : semanticReading;
       const checkIn = {
         localDate,
         mood: input.mood,
         energy: input.energy,
         derivedStateCell: semanticReading.stateCell,
-        semanticReading,
+        semanticReading: sealedReading,
         updatedAt,
       } as const;
       const stored = persistState({
@@ -281,7 +291,12 @@ function V3ControllerProvider({ children }: { children: ReactNode }) {
         return [date, {
           ...checkIn,
           derivedStateCell: semanticReading.stateCell,
-          semanticReading,
+          semanticReading: {
+            ...semanticReading,
+            keywordId: checkIn.semanticReading.keywordId,
+            favourIds: checkIn.semanticReading.favourIds,
+            easeOffIds: checkIn.semanticReading.easeOffIds,
+          },
           updatedAt,
         }];
       }));
@@ -325,6 +340,15 @@ function V3ControllerProvider({ children }: { children: ReactNode }) {
       },
     });
   }, [persistState, updateDraft]);
+
+  const redrawWorld = useCallback((cloudArchetype: CloudArchetype, worldPrototype: (typeof PATH_NUMBERS)[number]) => {
+    const current = stateRef.current;
+    if (!current || !CLOUD_ARCHETYPES.includes(cloudArchetype) || !PATH_NUMBERS.includes(worldPrototype)) return false;
+    return persistState({
+      ...current,
+      profile: { ...current.profile, cloudArchetype, worldPrototype },
+    });
+  }, [persistState]);
 
   const clearNewLeaf = useCallback(() => {
     if (newLeafTimerRef.current !== null) window.clearTimeout(newLeafTimerRef.current);
@@ -389,6 +413,7 @@ function V3ControllerProvider({ children }: { children: ReactNode }) {
     completeDailySession,
     updatePreferences,
     updateAudioPreferences,
+    redrawWorld,
     clearNewLeaf,
     resetV3,
     refreshFromStorage,
@@ -410,6 +435,7 @@ function V3ControllerProvider({ children }: { children: ReactNode }) {
     todayCheckIn,
     todayKey,
     updateAudioPreferences,
+    redrawWorld,
     updateDraft,
     updatePreferences,
   ]);
@@ -432,6 +458,7 @@ function V3Routes() {
               : <WorldBuilderPage />}
           />
           <Route path={`/${language}/today`} element={<RequireV3State><TodayPage /></RequireV3State>} />
+          <Route path={`/${language}/world`} element={<RequireV3State><WorldPage /></RequireV3State>} />
           <Route path={`/${language}/growth`} element={<RequireV3State><GrowthPage /></RequireV3State>} />
           <Route path={`/${language}/about`} element={<AboutPage />} />
           <Route path={`/${language}/preferences`} element={<RequireV3State><PreferencesPage /></RequireV3State>} />
@@ -441,6 +468,7 @@ function V3Routes() {
         </Fragment>
       ))}
       <Route path="/today" element={<Navigate to={localizedPath("/today", locale)} replace />} />
+      <Route path="/world" element={<Navigate to={localizedPath("/world", locale)} replace />} />
       <Route path="/growth" element={<Navigate to={localizedPath("/growth", locale)} replace />} />
       <Route path="/about" element={<Navigate to={localizedPath("/about", locale)} replace />} />
       <Route path="/preferences" element={<Navigate to={localizedPath("/preferences", locale)} replace />} />
