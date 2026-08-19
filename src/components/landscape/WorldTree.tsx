@@ -5,14 +5,16 @@ import type { PathNumber } from "../../domain/types";
 import { clampUnit } from "./geometry";
 import { SessionGrowthLayer } from "./SessionGrowthLayer";
 
-interface TreeGeometry {
+export interface TreeGeometry {
   trunk: string;
   trunkSegments?: readonly string[];
   branches: readonly string[];
   roots: readonly string[];
 }
 
-const TREE_GEOMETRY: Readonly<Record<PathNumber, TreeGeometry>> = {
+// Shared by V3's bare-tree renderer; V2 keeps rendering this component unchanged.
+// eslint-disable-next-line react-refresh/only-export-components
+export const TREE_GEOMETRY: Readonly<Record<PathNumber, TreeGeometry>> = {
   1: {
     trunk: "M600 592C574 522 592 448 594 378c2-74 5-141 6-206",
     branches: ["M596 414c-54-29-82-68-94-112", "M597 362c48-34 72-73 81-113", "M599 302c-30-32-41-66-42-98", "M601 254c23-29 31-58 32-87"],

@@ -7,12 +7,24 @@ export default defineConfig({
   plugins: [react()],
   build: {
     target: 'es2022',
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          motion: ['gsap', '@gsap/react'],
+          react: ['react', 'react-dom', 'react-router-dom'],
+        },
+      },
+    },
   },
   server: {
-    port: 5173,
+    host: '127.0.0.1',
+    port: 5174,
+    strictPort: true,
   },
   preview: {
-    port: 4173,
+    host: '127.0.0.1',
+    port: 4174,
+    strictPort: true,
   },
   test: {
     environment: 'jsdom',

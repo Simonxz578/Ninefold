@@ -1,21 +1,12 @@
+import { ninefoldV3Storage } from "../v3/domain";
 import type { Locale } from "./types";
 
-export const LOCALE_STORAGE_KEY = "ninefold:v2:locale";
+export const LOCALE_STORAGE_KEY = "ninefold:v3:locale";
 
 export function readStoredLocale(): Locale | null {
-  try {
-    const value = window.localStorage.getItem(LOCALE_STORAGE_KEY);
-    return value === "en" || value === "zh-CN" ? value : null;
-  } catch {
-    return null;
-  }
+  return ninefoldV3Storage.readLocale();
 }
 
 export function storeLocale(locale: Locale): void {
-  try {
-    window.localStorage.setItem(LOCALE_STORAGE_KEY, locale);
-  } catch {
-    // Locale persistence is helpful but must never block the local experience.
-  }
+  ninefoldV3Storage.saveLocale(locale);
 }
-

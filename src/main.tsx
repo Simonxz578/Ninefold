@@ -6,6 +6,7 @@ import { ErrorBoundary } from "./components/ErrorBoundary";
 import { ScrollToTop } from "./components/ScrollToTop";
 import "./styles.css";
 import "./v2.css";
+import "./v3/v3.css";
 
 const root = document.getElementById("root");
 if (!root) throw new Error("Ninefold could not find its application root.");
