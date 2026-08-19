@@ -1,7 +1,7 @@
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { MemoryRouter, useLocation } from "react-router-dom";
 import { LanguageSwitcher } from "../../components/LanguageSwitcher";
-import { I18nProvider, LOCALE_STORAGE_KEY, useI18n } from "..";
+import { I18nProvider, LOCALE_STORAGE_KEY, readStoredLocale, useI18n } from "..";
 
 function Probe() {
   const { locale, language, t, formatDate } = useI18n();
@@ -37,7 +37,8 @@ describe("I18nProvider", () => {
     expect(screen.getByTestId("brand")).toHaveTextContent("九境生息");
     expect(screen.getByTestId("date")).toHaveTextContent("2026年7月14日 星期二");
     await waitFor(() => expect(document.documentElement.lang).toBe("zh-CN"));
-    expect(window.localStorage.getItem(LOCALE_STORAGE_KEY)).toBe("zh-CN");
+    expect(window.localStorage.getItem(LOCALE_STORAGE_KEY)).not.toBeNull();
+    expect(readStoredLocale()).toBe("zh-CN");
   });
 
   it("switches the locale segment without losing route or experience state", async () => {
@@ -64,6 +65,7 @@ describe("I18nProvider", () => {
     expect(screen.getByTestId("state")).toHaveTextContent(JSON.stringify(state));
     expect(screen.getByTestId("brand")).toHaveTextContent("Ninefold");
     expect(document.documentElement.lang).toBe("en");
-    expect(window.localStorage.getItem(LOCALE_STORAGE_KEY)).toBe("en");
+    expect(window.localStorage.getItem(LOCALE_STORAGE_KEY)).not.toBeNull();
+    expect(readStoredLocale()).toBe("en");
   });
 });
