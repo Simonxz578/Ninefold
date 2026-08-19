@@ -7,6 +7,7 @@
 - Original duration: 11:59.769; WAV, 48 kHz, 16-bit stereo
 - License: Creative Commons Zero (CC0 1.0)
 - Distribution used: verified Pixabay mirror, asset 19693, downloaded as MP3
+- Retrieved: 2026-08-19
 - Local file: `public/audio/gentle-ocean-waves.mp3`
 - Local media: stereo MP3, 24 kHz, 160 kbps, 719.448 seconds, 14,388,960 audio bytes
 - SHA-256: `167ac0f56f469630775fb7768c20d2e146bdb946f6a8152e69f6966b66a74098`
