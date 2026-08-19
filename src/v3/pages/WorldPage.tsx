@@ -1,7 +1,7 @@
 import { useMemo, useState } from "react";
 import type { PathNumber } from "../../domain";
 import { Navigate } from "react-router-dom";
-import { localizedPath } from "../../i18n";
+import { interpolate, localizedPath } from "../../i18n";
 import { useV3App } from "../V3App";
 import { V3Shell } from "../components/V3Shell";
 import { WorldPrototypePicker } from "../components/WorldPrototypePicker";
@@ -28,12 +28,15 @@ export function WorldPage() {
   const activeCloud = cloud ?? profile.cloudArchetype;
   const activePath = path ?? profile.worldPrototype;
   const zh = locale === "zh-CN";
+  const treeDescription = state.meditation.leafCount > 0
+    ? interpolate(copy.accessibility.treeWithLeaves, { count: state.meditation.leafCount })
+    : copy.accessibility.bareTree;
 
   const reset = () => { setRedrawing(false); setStep("cloud"); setCloud(null); setPath(null); };
   return <V3Shell>
     <article className="v3-page v3-world-page">
       <header><p className="v3-eyebrow">{zh ? "我的九境" : "My Ninefold"}</p><h1>{zh ? "你的世界" : "Your world"}</h1><p>{zh ? "树叶与记录会留在原处。" : "Your leaves and records remain exactly as they are."}</p></header>
-      <WorldScene stage="today" path={activePath} cloud={CLOUD_TO_SCENE[activeCloud]} zodiac={profile.zodiacSign} leafCount={state.meditation.leafCount} stableSeed={profile.stableSeed} title={copy.accessibility.worldScene} description={copy.accessibility.bareTree} />
+      <WorldScene stage="today" path={activePath} cloud={CLOUD_TO_SCENE[activeCloud]} zodiac={profile.zodiacSign} leafCount={state.meditation.leafCount} stableSeed={profile.stableSeed} title={copy.accessibility.worldScene} description={treeDescription} />
       {!redrawing ? <button className="v3-primary-action" type="button" onClick={() => setRedrawing(true)}>{zh ? "重绘世界" : "Redraw world"}</button> :
         <section className="v3-redraw" aria-labelledby="v3-redraw-title">
           <h2 id="v3-redraw-title">{zh ? "重绘世界" : "Redraw your world"}</h2>
